@@ -1,0 +1,26 @@
+html
+|
+|-- head
+|   `-- (Metadata, Scripts, CSS Links, etc.)
+|
+|-- body
+    |
+    |-- header
+    |   `-- (School Name, Logo, Navigation Bar)
+    |
+    |-- main
+    |   |
+    |   |-- section (Banner)
+    |   |   `-- (Image, Headline, Subtext, CTA)
+    |   |
+    |   |-- section (About Our School)
+    |   |   `-- (Title, Content, Image)
+    |   |
+    |   |-- section (Latest News)
+    |   |   `-- (Title, Articles)
+    |   |
+    |   `-- section (Testimonials)
+    |       `-- (Title, Testimonials)
+    |
+    `-- footer
+        `-- (About Text, Links, Social Media, Contact Info)

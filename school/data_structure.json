@@ -1,0 +1,73 @@
+{
+    "school": {
+        "name": "Placeholder School Name",
+        "logo": "/static/images/school_logo.png",
+        "primary_color": "#004578",
+        "secondary_color": "#0063a5",
+        "contact_info": {
+            "address": "123 School Lane, Education City, 12345",
+            "phone": "+1 234 567 8900",
+            "email": "info@schoolname.edu"
+        }
+    },
+    "navigation": {
+        "logo": "/static/images/school_logo.png",
+        "menu_items": [
+            {"name": "Home", "link": "/"},
+            {"name": "About Us", "link": "/about"},
+            {"name": "Admissions", "link": "/admissions"},
+            {"name": "Academics", "link": "/academics"},
+            {"name": "Contact", "link": "/contact"}
+        ]
+    },
+    "banner": {
+        "image": "/static/images/banner.jpg",
+        "headline": "Welcome to Placeholder School",
+        "subtext": "A place of excellence in learning and teaching",
+        "cta": {"text": "Learn More", "link": "/about"}
+    },
+    "about_section": {
+        "title": "About Our School",
+        "content": "Detailed text about the school, its history, mission, vision, values, and achievements.",
+        "image": "/static/images/about_school.jpg"
+    },
+    "news_section": {
+        "title": "Latest News",
+        "articles": [
+            {
+                "title": "Article Title 1",
+                "summary": "Brief summary of the news article.",
+                "link": "/news/1",
+                "image": "/static/images/news1.jpg"
+            },
+            // More articles
+        ]
+    },
+    "testimonial_section": {
+        "title": "What Our Students and Parents Say",
+        "testimonials": [
+            {
+                "quote": "This school has been a fantastic experience for my child.",
+                "author": "Parent Name",
+                "relation": "Parent of Student"
+            },
+            // More testimonials
+        ]
+    },
+    "footer": {
+        "about_text": "Short text about the school.",
+        "links": [
+            {"name": "Privacy Policy", "link": "/privacy"},
+            {"name": "Terms of Use", "link": "/terms"}
+        ],
+        "social_media": [
+            {"platform": "Facebook", "link": "https://facebook.com/school"},
+            {"platform": "Twitter", "link": "https://twitter.com/school"}
+            // More social media links
+        ],
+        "contact_info": {
+            "phone": "+1 234 567 8900",
+            "email": "info@schoolname.edu"
+        }
+    }
+}
