@@ -26,7 +26,7 @@ class School(models.Model):
 class NavigationMenu(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    link = models.URLField()
+    link = models.CharField(max_length=100)
 
     def __str__(self):
         return f'{self.name}_{self.school}'
@@ -41,7 +41,7 @@ class Banner(models.Model):
     subtext = models.TextField(
         default="A place of excellence in learning and teaching")
     cta_text = models.CharField(max_length=100, null=True, blank=True)
-    cta_link = models.URLField(null=True, blank=True)
+    cta_link = models.CharField(max_length=100, null=True, blank=True)
 
 
 class AboutSection(models.Model):
@@ -57,7 +57,7 @@ class NewsArticle(models.Model):
     title = models.CharField(max_length=100, default='PTA Announcement')
     summary = models.TextField(
         default="This Quarter PTA will be held on the 2nd Saturday")
-    link = models.URLField(null=True, default=True)
+    link = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to='news/', default='sample-news.png')
 
 

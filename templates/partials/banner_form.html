@@ -1,0 +1,9 @@
+{% load static %}
+
+<!-- partials/banner_form.html -->
+{{form_name}}
+<form id="banner-form" onsubmit="event.preventDefault(); submitForm('banner');">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Banner</button>
+</form>

@@ -1,0 +1,9 @@
+{% load static %}
+
+<!-- partials/navigation_form.html -->
+{{form_name}}
+<form id="navigation-form" onsubmit="event.preventDefault(); submitForm('navigation');">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Navigation</button>
+</form>

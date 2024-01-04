@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School Page Editor</title>
+    <!-- Link to CSS files -->
+    <!-- Load JavaScript files -->
+    <script src="{% static 'js/form_navigation.js' %}"></script>
+
+</head>
+<body>
+    <div id="form-container">
+        <!-- Forms will be loaded here via AJAX -->
+    </div>
+
+    <div id="preview-container">
+        <!-- Live preview iframe -->
+        <iframe id="preview-frame" src="about:blank"></iframe>
+    </div>
+
+    <div id="navigation-buttons">
+        <button id="prev-btn" onclick="navigateForm('prev')">Prev</button>
+        <button id="next-btn" onclick="navigateForm('next')">Next</button>
+    </div>
+
+</body>
+</html>

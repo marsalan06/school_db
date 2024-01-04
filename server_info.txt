@@ -1,0 +1,10 @@
+ 'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'schooldb',
+        'USER': 'school_db',
+        'PASSWORD': '123Arsalan!',
+        'HOST': 'school-project-db.csr3d8sqz9ey.us-west-1.rds.amazonaws.com',
+        'PORT': '3306',  # Default MySQL port
+    }
+
+https://chat.openai.com/c/95261bb8-6cf7-4fc2-ba8b-3d87134f32f7

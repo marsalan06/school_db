@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preview - {{ school.name }}</title>
+    <!-- Add necessary styles here -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+<body>
+    {% if school %}
+        <!-- Header Section -->
+        <header style="background: #f0f0f0; padding: 10px; text-align: center;">
+            <h1>{{ school.name }}</h1>
+            {% if school.logo %}
+                <img src="{{ school.logo.url }}" alt="{{ school.name }} Logo" style="height: 100px;">
+            {% endif %}
+        </header>
+    {% endif %}
+
+    {% if navigation %}
+        <!-- Navigation Menu -->
+        <nav style="background: #e0e0e0; padding: 10px; text-align: center;">
+            {% for menu in navigation %}
+                <a href="{{ menu.link }}" style="margin-right: 20px;">{{ menu.name }}</a>
+            {% endfor %}
+        </nav>
+    {% endif %}
+
+    {% if banner %}
+        <!-- Banner Section -->
+        <section style="text-align: center;">
+            <img src="{{ banner.image.url }}" alt="Banner" style="max-width: 100%; height: auto;">
+            <h2>{{ banner.headline }}</h2>
+            <p>{{ banner.subtext }}</p>
+        </section>
+    {% endif %}
+
+    {% if about_section %}
+        <!-- About Section -->
+        <section style="margin: 20px;">
+            <h2>{{ about_section.title }}</h2>
+            <p>{{ about_section.content }}</p>
+        </section>
+    {% endif %}
+
+    {% if latest_news_articles %}
+        <!-- Latest News Section -->
+        <section style="margin: 20px;">
+            <h2>Latest News</h2>
+            {% for article in latest_news_articles %}
+                <article>
+                    <h3>{{ article.title }}</h3>
+                    <p>{{ article.summary }}</p>
+                </article>
+            {% endfor %}
+        </section>
+    {% endif %}
+
+    {% if testimonials %}
+        <!-- Testimonials Section -->
+        <section style="margin: 20px;">
+            <h2>Testimonials</h2>
+            {% for testimonial in testimonials %}
+                <blockquote>
+                    "{{ testimonial.quote }}"
+                    <footer>- {{ testimonial.author }}</footer>
+                </blockquote>
+            {% endfor %}
+        </section>
+    {% endif %}
+
+    {% if footer_content %}
+        <!-- Footer Section -->
+        <footer style="background: #d0d0d0; padding: 10px; text-align: center;">
+            <p>{{ footer_content.about_text }}</p>
+        </footer>
+    {% endif %}
+</body>
+</html>
