@@ -1,0 +1,56 @@
+/* Custom CSS with primary colors */
+
+/* Header with a blue background */
+
+:root {
+    --primary-color: #0400ff; /* default primary color */
+    --secondary-color: black; /* default secondary color */
+}
+
+/* Now use these variables throughout your CSS */
+
+
+.header {
+    margin-bottom: 20px;
+    /*background-color: #007bff;*/ /* Blue */
+    background-color: var(--primary-color);
+    color: blue;
+}
+/* nav */
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+/* Logo in nav */
+.navbar-light .navbar-brand {
+    color: black;
+}
+
+/* Banner with a subtle primary color accent */
+.banner {
+    background-color: #f8f9fa; /* Light Grey for contrast */
+    padding: 40px 0;
+    text-align: center;
+    color: #007bff; /* Blue */
+}
+
+/* Sections with a white background and primary color accents */
+.about-us, .news-article, .testimonials {
+    margin: 40px 0;
+    padding: 20px;
+    background-color: white; /* White background */
+    color: #dc3545; /* Red for text */
+}
+
+/* Footer with a yellowish tone */
+.footer {
+    /*background-color: #ffc107;*/ /* Yellow */
+    background-color: var(--secondary-color);
+    color: pink; /* Dark Grey for contrast */
+    padding: 30px 0;
+    text-align: center;
+}
+
+/* Additional Styling */
+.container h1, .container h2 {
+    color: #007bff; /* Blue */
+}

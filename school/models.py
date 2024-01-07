@@ -17,7 +17,7 @@ class School(models.Model):
     secondary_color = models.CharField(max_length=10, default='#FFFFFF')
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
-    logo = models.ImageField(upload_to='logos/', default='sample_logo.png')
+    logo = models.ImageField(upload_to='logos/', default='logos/sample_logo.png')
 
     def __str__(self):
         return f'{self.name}_{self.domain}_{self.uuid}'
@@ -35,7 +35,7 @@ class NavigationMenu(models.Model):
 class Banner(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     image = models.ImageField(
-        upload_to='banners/', default='sample_banner.jpeg')
+        upload_to='banners/', default='banners/sample_banner.jpeg')
     headline = models.CharField(
         max_length=200, default="Welcome To ABC School")
     subtext = models.TextField(
@@ -49,7 +49,7 @@ class AboutSection(models.Model):
     title = models.CharField(max_length=100, default='About Us')
     content = models.TextField(default='Detailed text about the school')
     image = models.ImageField(
-        upload_to='about-section/', default='about-section-sample.png')
+        upload_to='about-section/', default='about-section/about-section-sample.png')
 
 
 class NewsArticle(models.Model):
@@ -58,7 +58,7 @@ class NewsArticle(models.Model):
     summary = models.TextField(
         default="This Quarter PTA will be held on the 2nd Saturday")
     link = models.CharField(max_length=100, null=True, blank=True)
-    image = models.ImageField(upload_to='news/', default='sample-news.png')
+    image = models.ImageField(upload_to='news/', default='news/sample-news.png')
 
 
 class Testimonial(models.Model):
