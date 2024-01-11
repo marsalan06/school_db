@@ -1,6 +1,7 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse
 
 from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
                     NewsForm, SchoolForm, TestimonialForm)
@@ -100,6 +101,28 @@ def update_preview_view(request, school_id):
         'footer_content': footer_content
     })
 
+
+def create_school_with_defaults(request):
+    if request.method == 'POST':
+        form = SchoolForm(request.POST, request.FILES)
+        if form.is_valid():
+            school = form.save()
+
+            # Create related objects with default values
+            NavigationMenu.objects.create(school=school)
+            Banner.objects.create(school=school)
+            AboutSection.objects.create(school=school)
+            NewsArticle.objects.create(school=school)
+            Testimonial.objects.create(school=school)
+            FooterContent.objects.create(school=school)
+
+            # Redirect to a success page or another appropriate page
+            # replace 'success_page' with your success URL
+            return redirect(reverse('update_preview', args=[school.id]))
+    else:
+        form = SchoolForm()
+
+    return render(request, 'create_school.html', {'form': form})
 
 # def check_existing_school_view(request):
 #     school_id = request.session.get('school_id')
