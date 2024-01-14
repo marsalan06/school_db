@@ -1,5 +1,6 @@
 import uuid
 
+from colorfield.fields import ColorField
 from django.db import models
 
 from .models_utils import (default_json_data_links,
@@ -13,8 +14,8 @@ class School(models.Model):
     domain = models.CharField(max_length=100, unique=True)
     uuid = models.CharField(max_length=5, default=uuid.uuid4().hex[:5].lower())
     address = models.CharField(max_length=255)
-    primary_color = models.CharField(max_length=10, default='#0000FF')
-    secondary_color = models.CharField(max_length=10, default='#FFFFFF')
+    primary_color = ColorField(max_length=10, default='#0000FF')
+    secondary_color = ColorField(max_length=10, default='#808080')
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     logo = models.ImageField(upload_to='logos/', default='sample_logo.png')
