@@ -14,3 +14,6 @@ mysql -h school-project-db.csr3d8sqz9ey.us-west-1.rds.amazonaws.com -u school_db
 admin
 123
 admin@gmail.com
+
+wheel error mysql client --> sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
+sudo apt-get install libmysqlclient-dev

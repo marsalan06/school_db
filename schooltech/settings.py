@@ -78,29 +78,43 @@ WSGI_APPLICATION = 'schooltech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': config('LOCAL_DB_NAME'),
-            'USER': config('LOCAL_DB_USER'),
-            'PASSWORD': config('LOCAL_DB_PASSWORD'),
-            'HOST': config('LOCAL_DB_HOST'),
-            'PORT': '3306',
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("POSTGRES_DB"),
+        "USER": config("POSTGRES_USER"),
+        "PASSWORD": config("POSTGRES_PASSWORD"),
+        "HOST": config(
+            "DB_HOST", default="postgres_db_school"
+        ),  # Docker Compose service name for PostgreSQL
+        "PORT": config("DB_PORT", default="5432"),
     }
+}
 
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': config('PROD_DB_NAME'),
-            'USER': config('PROD_DB_USER'),
-            'PASSWORD': config('PROD_DB_PASSWORD'),
-            'HOST': config('PROD_DB_HOST'),
-            'PORT': '3306',  # Default MySQL port
-        }
-    }
+
+# if DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': config('LOCAL_DB_NAME'),
+#             'USER': config('LOCAL_DB_USER'),
+#             'PASSWORD': config('LOCAL_DB_PASSWORD'),
+#             'HOST': config('LOCAL_DB_HOST'),
+#             'PORT': '3306',
+#         }
+#     }
+
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': config('PROD_DB_NAME'),
+#             'USER': config('PROD_DB_USER'),
+#             'PASSWORD': config('PROD_DB_PASSWORD'),
+#             'HOST': config('PROD_DB_HOST'),
+#             'PORT': '3306',  # Default MySQL port
+#         }
+#     }
 
 
 # Password validation
