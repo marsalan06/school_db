@@ -1,7 +1,11 @@
 import uuid
 
 from colorfield.fields import ColorField
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models.fields.json import JSONField
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 
 from .models_utils import (default_json_data_links,
                            default_json_data_social_media)
@@ -19,6 +23,8 @@ class School(models.Model):
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     logo = models.ImageField(upload_to='logos/', default='sample_logo.png')
+    top_bar_notifications = JSONField(encoder=DjangoJSONEncoder, default=list, blank=True, help_text=_(
+        "List of notifications for the top bar"))
 
     def __str__(self):
         return f'{self.name}_{self.domain}_{self.uuid}'

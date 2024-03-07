@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ school.name }} - School System</title>
+    <link rel="stylesheet" media="all" href="{% static 'css/new-style.css' %}">
+</head>
+
+<body>
+    <div class="topbar" id="topbar">
+        <div class="container">
+        {% for text_data in school.top_bar_notifications %}
+                <h6 class="top-message" style="display: none;">{{text_data}}</h6>
+                <!-- <h6>Our new section is starting from <b>June</b> and we are offering a good discount on new admissions for Class 1 to 8. Get a chance to avail this offer.</h6> -->
+        {% endfor %}
+        </div>
+    </div>
+    <header id="site-header" class="site-header">
+        <div class='leftpan'>
+            <h1 class="navbar-text text-right ml-auto" >{{ school.name }}</h1>
+            <a class='site-logo' href='./'>
+                <img src="{{ school.logo.url }}" alt='Header logo'>
+            </a>
+        </div>
+
+        <div class='rightpan d-m-none desktop-rightpan'>
+            <nav>
+                <ul>
+                    {% for item in navigation %}
+                    <li>
+                        <a class='' href="{{ item.link }}">
+                            {{ item.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <a href="http://0.0.0.0:8001" class="goto-btn" target="_blank" rel="noopener noreferrer">Go to Portal</a>
+        </div>
+        <div class='rightpan m-menu d-d-none'>
+            <button class='menu-bar' onclick='toggleMenu()'>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class='m-links' id='mobileMenu'>
+                <ul>
+                    {% for item in navigation %}
+                    <li>
+                        <a class='' href="{{ item.link }}">
+                            {{ item.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="#" class="goto-btn">Go to Portal</a>
+            </div>
+        </div>
+    </header>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('menu-open');
+            
+            var menuBar = document.querySelector('.menu-bar');
+            menuBar.classList.toggle('active');
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const messages = document.querySelectorAll('.top-message');
+            let currentMessageIndex = 0;
+    
+            // Function to show one message at a time
+            function showNextMessage() {
+                // Hide all messages
+                messages.forEach(message => {
+                    message.style.display = 'none';
+                });
+    
+                // Show the current message
+                messages[currentMessageIndex].style.display = 'block';
+    
+                // Move to the next message or loop back to the first
+                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+    
+                // Set a timeout to show the next message
+                setTimeout(showNextMessage, 10000); // Change 5000 to the desired interval in milliseconds
+            }
+    
+            if (messages.length > 0) {
+                showNextMessage(); // Start the message cycle if there are any messages
+            }
+        });
+    </script>
+    
+
+    <!-- Additional sections such as Banner, About Us, etc., can be similarly integrated here. -->
+
+</body>
+</html>

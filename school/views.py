@@ -102,6 +102,35 @@ def update_preview_view(request, school_id):
     })
 
 
+def new_update_preview_view(request, school_id):
+    # Fetch the school instance by ID or return a 404 error if not found
+    school = get_object_or_404(School, pk=school_id)
+
+    # Fetch related objects from the database, ensuring they are related to the fetched school
+    # For lists of objects (navigation, latest_news_articles, testimonials), Django queries return QuerySets
+    navigation = NavigationMenu.objects.filter(school=school)
+    # .first() is used to get a single instance or None
+    banner = Banner.objects.filter(school=school).first()
+    about_section = AboutSection.objects.filter(school=school).first()
+    latest_news_articles = NewsArticle.objects.filter(school=school)
+    testimonials = Testimonial.objects.filter(school=school)
+    footer_content = FooterContent.objects.filter(school=school).first()
+
+    # The context dictionary contains all the variables to be passed to the template
+    context = {
+        'school': school,
+        'navigation': navigation,
+        'banner': banner,
+        'about_section': about_section,
+        'latest_news_articles': latest_news_articles,
+        'testimonials': testimonials,
+        'footer_content': footer_content
+    }
+
+    # The render function combines the template with the context and returns an HttpResponse object
+    return render(request, 'updated_preview.html', context)
+
+
 def create_school_with_defaults(request):
     if request.method == 'POST':
         form = SchoolForm(request.POST, request.FILES)

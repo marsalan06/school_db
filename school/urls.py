@@ -17,6 +17,8 @@ urlpatterns = [
     # Make sure you have a corresponding view to handle this
     path('update-preview/<int:school_id>',
          views.update_preview_view, name='update_preview'),
+    path('new-update-preview/<int:school_id>',
+         views.new_update_preview_view, name='new_update_preview'),
     path('create_school/', views.create_school_with_defaults, name='create_school'),
 
 ]
