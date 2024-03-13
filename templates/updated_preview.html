@@ -97,6 +97,13 @@
             }
         });
     </script>
+    <script>
+        const primaryColor = '{{ school.primary_color }}';
+        const secondaryColor = '{{ school.secondary_color }}';
+    
+        document.documentElement.style.setProperty('--color-primary', primaryColor);
+        document.documentElement.style.setProperty('--color-secondary', secondaryColor);
+    </script>
     
 
     <!-- Additional sections such as Banner, About Us, etc., can be similarly integrated here. -->
