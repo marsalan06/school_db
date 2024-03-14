@@ -8,3 +8,4 @@ python-decouple==3.8
 sqlparse==0.4.4
 typing_extensions==4.9.0
 psycopg2-binary==2.9.5  # https://github.com/psycopg/psycopg2
+requests==2.31.0

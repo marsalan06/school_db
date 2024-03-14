@@ -7,6 +7,7 @@
     <title>{{ school.name }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -63,6 +64,16 @@
                     <!--TODO, place image tag-->
                 </div>
             {% endfor %}
+            <p>---------------News Event Api----------</p>
+            {% for news_event in news_events %}
+                <div class="article">
+                    <h3>{{ news_event.title }}</h3>
+                    <p>{{ news_event.summary }}</p>
+                    <p>{{ news_event.posted_as }}</p>
+                    <a href="{{ article.link }}">Read More</a>
+                    <!--TODO, place image tag-->
+                </div>
+            {% endfor %}
         </div>
     </section>
 
@@ -97,6 +108,6 @@
         document.documentElement.style.setProperty('--primary-color', primaryColor);
         document.documentElement.style.setProperty('--secondary-color', secondaryColor);
     </script>
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
 </body>
 </html>

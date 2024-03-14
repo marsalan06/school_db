@@ -7,6 +7,7 @@ from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
                     NewsForm, SchoolForm, TestimonialForm)
 from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
                      NewsArticle, School, Testimonial)
+from .utils import fetch_news_and_events_from_lms
 
 # Create your views here.
 
@@ -89,7 +90,7 @@ def update_preview_view(request, school_id):
     latest_news_articles = NewsArticle.objects.filter(school=school)
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
-
+    news_events = fetch_news_and_events_from_lms('e16e40')
     # Render the template with the context
     return render(request, 'school_preview_template.html', {
         'school': school,
@@ -98,7 +99,8 @@ def update_preview_view(request, school_id):
         'about_section': about_section,
         'latest_news_articles': latest_news_articles,
         'testimonials': testimonials,
-        'footer_content': footer_content
+        'footer_content': footer_content,
+        'news_events': news_events
     })
 
 
@@ -115,6 +117,7 @@ def new_update_preview_view(request, school_id):
     latest_news_articles = NewsArticle.objects.filter(school=school)
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
+    news_events = fetch_news_and_events_from_lms('e16e40')
 
     # The context dictionary contains all the variables to be passed to the template
     context = {
@@ -124,7 +127,8 @@ def new_update_preview_view(request, school_id):
         'about_section': about_section,
         'latest_news_articles': latest_news_articles,
         'testimonials': testimonials,
-        'footer_content': footer_content
+        'footer_content': footer_content,
+        'news_events': news_events
     }
 
     # The render function combines the template with the context and returns an HttpResponse object

@@ -5,3 +5,4 @@ school/migrations/__pycache__/
 venv/
 media/
 static/
+.env
