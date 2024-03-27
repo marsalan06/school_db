@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.conf import settings
 
 from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
                     NewsForm, SchoolForm, TestimonialForm)
@@ -128,11 +129,12 @@ def new_update_preview_view(request, school_id):
         'latest_news_articles': latest_news_articles,
         'testimonials': testimonials,
         'footer_content': footer_content,
-        'news_events': news_events
+        'news_events': news_events,
+        'LMS_SERVER_URL': settings.LMS_SERVER_URL
     }
 
     # The render function combines the template with the context and returns an HttpResponse object
-    return render(request, 'updated_preview.html', context)
+    return render(request, 'updated_2_preview.html', context)
 
 
 def create_school_with_defaults(request):

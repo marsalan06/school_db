@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ school.name }}</title>
+    <link rel="stylesheet" media="all" href="{% static 'css/new-style-2.css' %}">
+</head>
+
+<body>
+    <div class="topbar" id="topbar">
+        <div class="container">
+            {% for text_data in school.top_bar_notifications %}
+            <h6 class="top-message" style="display: none;">{{text_data}}</h6>
+            <!-- <h6>Our new section is starting from <b>June</b> and we are offering good discount on new addmissions for
+                Class 1 to 8 get a chance to avail this offer.</h6> -->
+            {% endfor %}
+            </div>
+    </div>
+    <header id="site-header" class="site-header">
+        <div class='leftpan'>
+            <a class='site-logo' href='./'>
+                <img src="{{ school.logo.url }}" alt='Header logo'>
+            </a>
+        </div>
+
+        <div class='rightpan d-m-none desktop-rightpan'>
+            <nav>
+                <ul>
+                    {% for item in navigation %}
+                    <li>
+                        <a class='' href="{{ item.link }}">
+                            {{ item.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <a href="{{LMS_SERVER_URL}}" target="_blank" class="goto-btn">Go to Portal</a>
+        </div>
+        <div class='rightpan m-menu d-d-none'>
+            <button class='menu-bar' onclick='toggleMenu()'>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class='m-links' id='mobileMenu'>
+                <ul>
+                    {% for item in navigation %}
+                    <li>
+                        <a class='' href="{{ item.link }}">
+                            {{ item.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="{{LMS_SERVER_URL}}" class="goto-btn">Go to Portal</a>
+            </div>
+        </div>
+    </header>
+    <section class="hero-banner">
+        <div class="image-wrap">
+            <img src="{% static 'hero.jpg' %}" alt="Hero Banner">
+        </div>
+    </section>
+
+    <div class="body-wrapper">
+        <div class="container">
+            <div class="important-sec">
+                <div class="sec-inner">
+                    <h2 class="sub-title">Important Notice</h2>
+                    <div class="left-line">
+                        <ul class="important-notice-list btn-item-list">
+                            <li>
+                                <a class="important-notice-item btn-item" href="{% static '#' %}">
+                                    <span>Commemorating World Diabetes Day: Our Commitment to Health and
+                                        Awareness</span>
+                                    <small>(Updated January 2,2024)</small>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="important-notice-item btn-item" href="{% static '#' %}">
+                                    <span>Commemorating World Diabetes Day: Our Commitment to Health and
+                                        Awareness</span>
+                                    <small>(Updated January 2,2024)</small>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="abt-sec">
+                <div class="leftpan">
+                    <h3>About Our Legacy</h3>
+                    <p>
+                        Founded in 1999, School Name has been a symbol of knowledge and wisdom for over two decades.
+                        With a diverse range of academic programs and a team of 500+ experienced lecturers, we're more
+                        than just an educational institution; we're a legacy. Our two picturesque campuses are home to
+                        over 3,900 students from various backgrounds. Moreover, 89.5% of our graduates find employment
+                        or further study opportunities within six months. Discover the world of excellence and
+                        innovation with us.
+                    </p>
+                </div>
+                <div class="rightpan">
+                    <img src="{% static 'abt-img.jpg' %}" alt="">
+                </div>
+            </div>
+            <div class="recent-new">
+                <div class="sec-inner">
+                    <h2 class="sub-title">Recent News</h2>
+                    <div class="news-sec">
+                        <div class="news-body d-flex flex-column">
+                            <a href="{% static '#' %}">
+                                <img src="{% static 'news1.jpg' %}">
+                            </a>
+                            <div class="date-tag d-flex">
+                                <span class="date">Dec 22, 2023</span>
+                                <ul class="d-flex">
+                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
+                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
+                                </ul>
+                            </div>
+                            <a href="{% static '#' %}">
+                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
+                                    Role PlayCompetitions</h3>
+                            </a>
+                        </div>
+                        <div class="news-body d-flex flex-column">
+                            <a href="{% static '#' %}">
+                                <img src="{% static 'news1.jpg' %}">
+                            </a>
+                            <div class="date-tag d-flex">
+                                <span class="date">Dec 22, 2023</span>
+                                <ul class="d-flex">
+                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
+                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
+                                </ul>
+                            </div>
+                            <a href="{% static '#' %}">
+                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
+                                    Role PlayCompetitions</h3>
+                            </a>
+                        </div>
+                        <div class="news-body d-flex flex-column">
+                            <a href="{% static '#' %}">
+                                <img src="{% static 'news1.jpg' %}">
+                            </a>
+                            <div class="date-tag d-flex">
+                                <span class="date">Dec 22, 2023</span>
+                                <ul class="d-flex">
+                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
+                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
+                                </ul>
+                            </div>
+                            <a href="{% static '#' %}">
+                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
+                                    Role PlayCompetitions</h3>
+                            </a>
+                        </div>
+                        <div class="news-body d-flex flex-column">
+                            <a href="{% static '#' %}">
+                                <img src="{% static 'news1.jpg' %}">
+                            </a>
+                            <div class="date-tag d-flex">
+                                <span class="date">Dec 22, 2023</span>
+                                <ul class="d-flex">
+                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
+                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
+                                </ul>
+                            </div>
+                            <a href="{% static '#' %}">
+                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
+                                    Role PlayCompetitions</h3>
+                            </a>
+                        </div>
+                        <div class="news-body d-flex flex-column">
+                            <a href="{% static '#' %}">
+                                <img src="{% static 'news1.jpg' %}">
+                            </a>
+                            <div class="date-tag d-flex">
+                                <span class="date">Dec 22, 2023</span>
+                                <ul class="d-flex">
+                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
+                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
+                                </ul>
+                            </div>
+                            <a href="{% static '#' %}">
+                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
+                                    Role PlayCompetitions</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="top-bar"></div>
+        <div class="main-links d-flex">
+            <div class="column-1">
+                <img alt="Footer Logo" src="{% static 'site-logo.svg' %}">
+            </div>
+            <div class="column column-2">
+                <h3>Academic Programs</h3>
+                <ul>
+                    <li><a class="" href="/">Undergraduate Programs</a></li>
+                    <li><a class="" href="/">Graduate School</a></li>
+                </ul>
+            </div>
+            <div class="column column-3">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a class="" href="#">Admission Requirements</a></li>
+                    <li><a class="" href="/">Tuition Fees</a></li>
+                    <li><a class="" href="/">Scholarships and Financial Aid</a></li>
+                </ul>
+            </div>
+            <div class="column column-4">
+                <h3>Downloads</h3>
+                <ul>
+                    <li><a class="" href="/">School Prospectus</a></li>
+                    <li><a class="" href="/">Annual Report 2024</a></li>
+                </ul>
+            </div>
+            <div class="column column-5">
+                <div>
+                    <h3>Get in Touch</h3>
+                    <ul>
+                        <li><a class="" href="/">Contact Us</a></li>
+                        <li><a class="" href="/">Maps & Directions</a></li>
+                        <li><a class="" href="/">Jobs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column column-6">
+                <div>
+                    <h3>Connect with us</h3>
+                    <ul class="d-flex">
+                        <li>
+                            <a class="" href="/">
+                                <img src="{% static 'insta.svg' %}">
+                            </a>
+                        </li>
+                        <li>
+                            <a class="" href="/">
+                                <img src="{% static 'facebook.svg' %}">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Copyright (c) 2024 School Name </p>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>
+<script src="{% static 'js/toggle.js' %}">
+</script>
+<script src="{% static 'js/top_bar.js' %}"></script>
+<script>
+    const primaryColor = '{{ school.primary_color }}';
+    const secondaryColor = '{{ school.secondary_color }}';
+
+    document.documentElement.style.setProperty('--color-primary', primaryColor);
+    document.documentElement.style.setProperty('--color-secondary', secondaryColor);
+</script>
