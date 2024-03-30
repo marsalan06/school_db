@@ -473,3 +473,24 @@ footer .copyright p {
         transform: translateX(-100%);
     }
 }
+
+/* banner text in middle of banner */
+
+.hero-banner .image-wrap {
+    position: relative;
+    text-align: center; /* Centers the content horizontally */
+}
+
+.hero-banner .image-wrap img {
+    width: 100%; /* Adjust as necessary */
+    height: auto; /* Adjust as necessary */
+}
+
+.hero-banner .text-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the content */
+    color: black; /* Adjust text color as necessary */
+    /* Add more styling as necessary */
+}

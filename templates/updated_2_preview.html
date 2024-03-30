@@ -60,11 +60,22 @@
             </div>
         </div>
     </header>
-    <section class="hero-banner">
-        <div class="image-wrap">
-            <img src="{% static 'hero.jpg' %}" alt="Hero Banner">
-        </div>
-    </section>
+    <!-- Banner -->
+    <!-- <section class="hero-banner" style="background-image:  ;"> -->
+        <section class="hero-banner">
+            <div class="image-wrap">
+                {% if banner.image.url %}
+                    <img src="{{ banner.image.url }}" alt="Hero Banner">
+                {% else %}
+                    <img src="{% static 'hero.jpg' %}" alt="Hero Banner">
+                {% endif %}
+                <div class="text-content">
+                    <h1>{{ banner.headline }}</h1>
+                    <p>{{ banner.subtext }}</p>
+                    <a href="{{ banner.cta_link }}" class="btn btn-primary">{{ banner.cta_text }}</a>
+                </div>
+            </div>
+        </section>
 
     <div class="body-wrapper">
         <div class="container">
@@ -73,124 +84,75 @@
                     <h2 class="sub-title">Important Notice</h2>
                     <div class="left-line">
                         <ul class="important-notice-list btn-item-list">
-                            <li>
-                                <a class="important-notice-item btn-item" href="{% static '#' %}">
-                                    <span>Commemorating World Diabetes Day: Our Commitment to Health and
-                                        Awareness</span>
-                                    <small>(Updated January 2,2024)</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="important-notice-item btn-item" href="{% static '#' %}">
-                                    <span>Commemorating World Diabetes Day: Our Commitment to Health and
-                                        Awareness</span>
-                                    <small>(Updated January 2,2024)</small>
-                                </a>
-                            </li>
+                            {% for news_event in news_events %}
+                                {% if news_event.posted_as == 'Event' %}
+                                <li>
+                                    <a class="important-notice-item btn-item" href="{% static news_event.link %}">
+                                        <span>{{ news_event.title }}</span>
+                                        <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
+                                    </a>
+                                    <p>{{ news_event.summary }}</p>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
                         </ul>
+                        
                     </div>
                 </div>
             </div>
             <div class="abt-sec">
                 <div class="leftpan">
-                    <h3>About Our Legacy</h3>
+                    <h3>{{ about_section.title }}</h3>
                     <p>
-                        Founded in 1999, School Name has been a symbol of knowledge and wisdom for over two decades.
-                        With a diverse range of academic programs and a team of 500+ experienced lecturers, we're more
-                        than just an educational institution; we're a legacy. Our two picturesque campuses are home to
-                        over 3,900 students from various backgrounds. Moreover, 89.5% of our graduates find employment
-                        or further study opportunities within six months. Discover the world of excellence and
-                        innovation with us.
+                        {{ about_section.content }}
                     </p>
                 </div>
-                <div class="rightpan">
+                    <div class="rightpan">
+                    {% if about_section.image.url %}
+                        <img src="{{ about_section.image.url }}" alt="">
+                    {% else %}
+                        <img src="{% static 'abt-img.jpg' %}" alt="">
+                    {% endif %}
+                    </div>
+                
+                <!-- <div class="rightpan">
                     <img src="{% static 'abt-img.jpg' %}" alt="">
-                </div>
+                </div> -->
             </div>
             <div class="recent-new">
                 <div class="sec-inner">
                     <h2 class="sub-title">Recent News</h2>
                     <div class="news-sec">
-                        <div class="news-body d-flex flex-column">
-                            <a href="{% static '#' %}">
-                                <img src="{% static 'news1.jpg' %}">
-                            </a>
-                            <div class="date-tag d-flex">
-                                <span class="date">Dec 22, 2023</span>
-                                <ul class="d-flex">
-                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
-                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
-                                </ul>
-                            </div>
-                            <a href="{% static '#' %}">
-                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
-                                    Role PlayCompetitions</h3>
-                            </a>
-                        </div>
-                        <div class="news-body d-flex flex-column">
-                            <a href="{% static '#' %}">
-                                <img src="{% static 'news1.jpg' %}">
-                            </a>
-                            <div class="date-tag d-flex">
-                                <span class="date">Dec 22, 2023</span>
-                                <ul class="d-flex">
-                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
-                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
-                                </ul>
-                            </div>
-                            <a href="{% static '#' %}">
-                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
-                                    Role PlayCompetitions</h3>
-                            </a>
-                        </div>
-                        <div class="news-body d-flex flex-column">
-                            <a href="{% static '#' %}">
-                                <img src="{% static 'news1.jpg' %}">
-                            </a>
-                            <div class="date-tag d-flex">
-                                <span class="date">Dec 22, 2023</span>
-                                <ul class="d-flex">
-                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
-                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
-                                </ul>
-                            </div>
-                            <a href="{% static '#' %}">
-                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
-                                    Role PlayCompetitions</h3>
-                            </a>
-                        </div>
-                        <div class="news-body d-flex flex-column">
-                            <a href="{% static '#' %}">
-                                <img src="{% static 'news1.jpg' %}">
-                            </a>
-                            <div class="date-tag d-flex">
-                                <span class="date">Dec 22, 2023</span>
-                                <ul class="d-flex">
-                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
-                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
-                                </ul>
-                            </div>
-                            <a href="{% static '#' %}">
-                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
-                                    Role PlayCompetitions</h3>
-                            </a>
-                        </div>
-                        <div class="news-body d-flex flex-column">
-                            <a href="{% static '#' %}">
-                                <img src="{% static 'news1.jpg' %}">
-                            </a>
-                            <div class="date-tag d-flex">
-                                <span class="date">Dec 22, 2023</span>
-                                <ul class="d-flex">
-                                    <li><a class="green" href="{% static '#' %}">SDGs</a></li>
-                                    <li><a class="yellow" href="{% static '#' %}">Research</a></li>
-                                </ul>
-                            </div>
-                            <a href="{% static '#' %}">
-                                <h3 class="news-title">SU Students Win International Humanitarian Law Moot Court and
-                                    Role PlayCompetitions</h3>
-                            </a>
-                        </div>
+                        {% for news_event in news_events %}
+                            {% if news_event.posted_as == 'News' %}
+                                <div class="news-body d-flex flex-column">
+                                    <p>{{news_event.title}}</p>
+                                    <a>
+                                        {% if news_event.image_url %}
+                                            <img src="{% static news_event.image_url %}" alt="{{ news_event.title }}">
+                                        {% else %}
+                                            <img src="{% static 'news1.jpg' %}">
+                                        {% endif %}
+
+                                    </a>
+                                    <div class="date-tag d-flex">
+                                        <span class="date">{{ news_event.updated_date|date:"M d, Y" }}</span>
+                                        <ul class="d-flex">
+                                            {% for tag in news_event.tags %}
+                                                {% if forloop.counter|divisibleby:2 %}
+                                                    <li><a class="yellow">{{ tag }}</a></li>
+                                                {% else %}
+                                                    <li><a class="green">{{ tag }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <a href="{{ news_event.link }}">
+                                        <h3 class="news-title">{{ news_event.summary }}</h3>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>

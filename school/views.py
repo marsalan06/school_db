@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.conf import settings
+from django.utils.dateparse import parse_datetime
+from django.utils.timezone import get_current_timezone
 
 from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
                     NewsForm, SchoolForm, TestimonialForm)
@@ -119,6 +121,14 @@ def new_update_preview_view(request, school_id):
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms('e16e40')
+
+    for news_event in news_events:
+        # Convert string to datetime object
+        news_event['updated_date'] = parse_datetime(news_event['updated_date'])
+        if news_event['updated_date'] and settings.USE_TZ:
+            # Make it timezone-aware, according to your current timezone settings
+            news_event['updated_date'] = news_event['updated_date'].astimezone(
+                get_current_timezone())
 
     # The context dictionary contains all the variables to be passed to the template
     context = {
