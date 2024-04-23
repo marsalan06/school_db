@@ -1,3 +1,5 @@
+import json
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -145,6 +147,36 @@ def new_update_preview_view(request, school_id):
 
     # The render function combines the template with the context and returns an HttpResponse object
     return render(request, 'updated_2_preview.html', context)
+
+
+@csrf_exempt
+def receive_webhook(request):
+    if request.method == 'POST':
+        data = json.loads(request.POST['data'])
+        logo_file = request.FILES.get('logo', None)
+        # Process the received data and file here
+        print("Received data:", data)
+        if data:
+            school, created = School.objects.update_or_create(
+                # Assuming 'id' in the data corresponds to 'uuid' in the School model
+                uuid=data['id'],
+                defaults={
+                    'name': data['name'],
+                    'domain': data['domain'],
+                    'address': data['address'],
+                    'phone_no': data.get('phone_no', ''),
+                    'email': data.get('email', ''),
+                    # Ensuring it's a list
+                    'top_bar_notifications': data.get('topbar', '')
+                }
+            )
+        if logo_file:
+            print("Received file with name:", logo_file.name)
+            school.logo.save(logo_file.name, logo_file, save=True)
+            print(f'School Updated or Created: {school}')
+        return JsonResponse({"status": "success", "message": "Webhook received"})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
 def create_school_with_defaults(request):
