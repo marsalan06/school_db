@@ -122,7 +122,7 @@ def new_update_preview_view(request, school_id):
     latest_news_articles = NewsArticle.objects.filter(school=school)
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
-    news_events = fetch_news_and_events_from_lms('e16e40')
+    news_events = fetch_news_and_events_from_lms(school.uuid)
 
     for news_event in news_events:
         # Convert string to datetime object
@@ -142,7 +142,7 @@ def new_update_preview_view(request, school_id):
         'testimonials': testimonials,
         'footer_content': footer_content,
         'news_events': news_events,
-        'LMS_SERVER_URL': settings.LMS_SERVER_URL
+        'LMS_EXTERNAL_URL': settings.LMS_EXTERNAL_URL
     }
 
     # The render function combines the template with the context and returns an HttpResponse object

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ school.name }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" media="all" href="{% static 'css/new-style-2.css' %}">
 </head>
 
@@ -31,14 +32,14 @@
                 <ul>
                     {% for item in navigation %}
                     <li>
-                        <a class='' href="{{ item.link }}">
+                        <a class='' href="#{{ item.name|lower }}">
                             {{ item.name }}
                         </a>
                     </li>
                     {% endfor %}
                 </ul>
             </nav>
-            <a href="{{LMS_SERVER_URL}}" target="_blank" class="goto-btn">Go to Portal</a>
+            <a href="{{LMS_EXTERNAL_URL}}" target="_blank" class="goto-btn">Go to Portal</a>
         </div>
         <div class='rightpan m-menu d-d-none'>
             <button class='menu-bar' onclick='toggleMenu()'>
@@ -50,49 +51,60 @@
                 <ul>
                     {% for item in navigation %}
                     <li>
-                        <a class='' href="{{ item.link }}">
+                        <a class='' href="#{{ item.name|lower }}">
                             {{ item.name }}
                         </a>
                     </li>
                     {% endfor %}
                 </ul>
-                <a href="{{LMS_SERVER_URL}}" class="goto-btn">Go to Portal</a>
+                <a href="{{LMS_EXTERNAL_URL}}" class="goto-btn">Go to Portal</a>
             </div>
         </div>
     </header>
     <!-- Banner -->
     <!-- <section class="hero-banner" style="background-image:  ;"> -->
-        <section class="hero-banner">
+        <section class="hero-banner" id="home">
             <div class="image-wrap">
                 {% if banner.image.url %}
                     <img src="{{ banner.image.url }}" alt="Hero Banner">
                 {% else %}
                     <img src="{% static 'hero.jpg' %}" alt="Hero Banner">
                 {% endif %}
-                <div class="text-content">
-                    <h1>{{ banner.headline }}</h1>
-                    <p>{{ banner.subtext }}</p>
+            </div>
+            <div class="text-content">
+                <h1>{{ banner.headline }}</h1>
+                <p>{{ banner.subtext }}</p>
+                {% if banner.cta_link %}
                     <a href="{{ banner.cta_link }}" class="btn btn-primary">{{ banner.cta_text }}</a>
-                </div>
+                {% endif %}
             </div>
         </section>
+        
+        
 
     <div class="body-wrapper">
         <div class="container">
-            <div class="important-sec">
+            <div class="important-sec" id="events">
                 <div class="sec-inner">
                     <h2 class="sub-title">Important Notice</h2>
                     <div class="left-line">
                         <ul class="important-notice-list btn-item-list">
                             {% for news_event in news_events %}
                                 {% if news_event.posted_as == 'Event' %}
-                                <li>
-                                    <a class="important-notice-item btn-item" href="{% static news_event.link %}">
-                                        <span>{{ news_event.title }}</span>
-                                        <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
-                                    </a>
-                                    <p>{{ news_event.summary }}</p>
-                                </li>
+                                    <li>
+                                        {% if news_event.link %}
+                                            <a class="important-notice-item btn-item" href="{% static news_event.link %}">
+                                                <span>{{ news_event.title }}</span>
+                                                <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
+                                            </a>
+                                        {% else %}
+                                            <a class="important-notice-item btn-item" href="#events">
+                                                <span>{{ news_event.title }}</span>
+                                                <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
+                                            </a>
+                                        {% endif %}
+                                        <p>{{ news_event.summary }}</p>
+                                    </li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -100,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <div class="abt-sec">
+            <div class="abt-sec" id="about">
                 <div class="leftpan">
                     <h3>{{ about_section.title }}</h3>
                     <p>
@@ -119,7 +131,7 @@
                     <img src="{% static 'abt-img.jpg' %}" alt="">
                 </div> -->
             </div>
-            <div class="recent-new">
+            <div class="recent-new" id="news">
                 <div class="sec-inner">
                     <h2 class="sub-title">Recent News</h2>
                     <div class="news-sec">
@@ -153,6 +165,81 @@
                                 </div>
                             {% endif %}
                         {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="contact-sec" id="contact">
+                <img src="img/shape.png" class="square" alt="" />
+                <div class="form">
+                    <div class="contact-info">
+                    <h3 class="title">Let's get in touch</h3>
+                    <p>
+                        Checkout Our Contact Information Or Fill The Form
+                    </p>
+            
+                    <div class="info">
+                        <div class="information">
+                        <i class="fas fa-map-marker-alt"></i> &nbsp &nbsp
+            
+                        <p>{{ school.address }}</p>
+                        </div>
+                        <div class="information">
+                        <i class="fas fa-envelope"></i> &nbsp &nbsp
+                        <p> {{school.email}} </p>
+                        </div>
+                        <div class="information">
+                        <i class="fas fa-phone"></i>&nbsp&nbsp
+                        <p>{{school.phone_no}}</p>
+                        </div>
+                    </div>
+            
+                    <div class="social-media">
+                        <p>Connect with us :</p>
+                        <div class="social-icons">
+                        <a href="#">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        </div>
+                    </div>
+                    </div>
+            
+                    <div class="contact-form">
+                    <span class="circle one"></span>
+                    <span class="circle two"></span>
+            
+                    <form action="index.html" autocomplete="off">
+                        <h3 class="title">Contact us</h3>
+                        <div class="input-container">
+                        <input type="text" name="name" class="input" />
+                        <label for="">Username</label>
+                        <span>Username</span>
+                        </div>
+                        <div class="input-container">
+                        <input type="email" name="email" class="input" />
+                        <label for="">Email</label>
+                        <span>Email</span>
+                        </div>
+                        <div class="input-container">
+                        <input type="tel" name="phone" class="input" />
+                        <label for="">Phone</label>
+                        <span>Phone</span>
+                        </div>
+                        <div class="input-container textarea">
+                        <textarea name="message" class="input"></textarea>
+                        <label for="">Message</label>
+                        <span>Message</span>
+                        </div>
+                        <input type="submit" value="Send" class="btn" />
+                    </form>
                     </div>
                 </div>
             </div>
