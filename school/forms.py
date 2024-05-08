@@ -1,5 +1,6 @@
 # forms.py
 
+from captcha.fields import CaptchaField
 from django import forms
 
 from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
@@ -46,3 +47,12 @@ class FooterForm(forms.ModelForm):
     class Meta:
         model = FooterContent
         fields = ['about_text', 'links', 'social_media']
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    phone = forms.CharField(max_length=20)
+    message = forms.CharField(widget=forms.Textarea)
+    uuid = forms.CharField(max_length=6, widget=forms.HiddenInput())
+    captcha = CaptchaField()

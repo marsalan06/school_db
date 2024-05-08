@@ -1,0 +1,17 @@
+{% load static %}
+<section class="hero-banner" id="home">
+    <div class="image-wrap">
+        {% if banner.image.url %}
+        <img src="{{ banner.image.url }}" alt="Hero Banner">
+        {% else %}
+        <img src="{% static 'hero.jpg' %}" alt="Hero Banner">
+        {% endif %}
+    </div>
+    <div class="text-content">
+        <h1>{{ banner.headline }}</h1>
+        <p>{{ banner.subtext }}</p>
+        {% if banner.cta_link %}
+        <a href="{{ banner.cta_link }}" class="btn btn-primary">{{ banner.cta_text }}</a>
+        {% endif %}
+    </div>
+</section>

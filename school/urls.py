@@ -21,5 +21,6 @@ urlpatterns = [
          views.new_update_preview_view, name='new_update_preview'),
     path('create_school/', views.create_school_with_defaults, name='create_school'),
     path('api/webhook/receive', views.receive_webhook, name='receive_webhook'),
+    path('contact/submit/', views.contact_submit, name='contact_submit'),
 
 ]

@@ -1,0 +1,23 @@
+<header id="site-header" class="site-header">
+    <div class='leftpan'>
+        <a class='site-logo' href='./'>
+            <img src="{{ school.logo.url }}" alt='Header logo'>
+        </a>
+    </div>
+    <div class='rightpan d-m-none desktop-rightpan'>
+        <nav>
+            <ul>
+                {% for item in navigation %}
+                <li>
+                    <a class='' href="#{{ item.name|lower }}">
+                        {{ item.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <a href="{{ LMS_EXTERNAL_URL }}" target="_blank" class="goto-btn">Go to Portal</a>
+    </div>
+    <!-- Include mobile menu -->
+    {% include "segments/mobile_menu.html" %}
+</header>

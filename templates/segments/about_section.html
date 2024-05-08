@@ -1,0 +1,14 @@
+{% load static %}
+<div class="abt-sec" id="about">
+    <div class="leftpan">
+        <h3>{{ about_section.title }}</h3>
+        <p>{{ about_section.content }}</p>
+    </div>
+    <div class="rightpan">
+        {% if about_section.image.url %}
+        <img src="{{ about_section.image.url }}" alt="About Section Image">
+        {% else %}
+        <img src="{% static 'abt-img.jpg' %}" alt="Default About Image">
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div class='rightpan m-menu d-d-none'>
+    <button class='menu-bar' onclick='toggleMenu()'>
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class='m-links' id='mobileMenu' style="display: none;">
+        <ul>
+            {% for item in navigation %}
+            <li>
+                <a href="#{{ item.name|lower }}">
+                    {{ item.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ LMS_EXTERNAL_URL }}" class="goto-btn">Go to Portal</a>
+    </div>
+</div>

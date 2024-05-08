@@ -1,0 +1,49 @@
+{% load static %}
+<div class="contact-sec" id="contact">
+    <img src="{% static 'img/shape.png' %}" class="square" alt="" />
+    <div class="form">
+        <div class="contact-info">
+            <h3 class="title">Let's get in touch</h3>
+            <p>Checkout Our Contact Information Or Fill The Form</p>
+        
+            <div class="info">
+                <div class="information">
+                    <i class="fas fa-map-marker-alt"></i> &nbsp &nbsp
+                    <p>{{ school.address }}</p>
+                </div>
+                <div class="information">
+                    <i class="fas fa-envelope"></i> &nbsp &nbsp
+                    <p>{{ school.email }}</p>
+                </div>
+                <div class="information">
+                    <i class="fas fa-phone"></i>&nbsp&nbsp
+                    <p>{{ school.phone_no }}</p>
+                </div>
+            </div>
+        
+            <div class="social-media">
+                <p>Connect with us :</p>
+                <div class="social-icons">
+                    <a href="#">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-form">
+            <span class="circle one"></span>
+            <span class="circle two"></span>
+            {% include "contact_us_form.html" %}
+        </div>
+    </div>
+</div>

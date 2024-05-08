@@ -1,0 +1,28 @@
+{% load static %}
+<div class="important-sec" id="events">
+    <div class="sec-inner">
+        <h2 class="sub-title">Important Notice</h2>
+        <div class="left-line">
+            <ul class="important-notice-list btn-item-list">
+                {% for news_event in news_events %}
+                    {% if news_event.posted_as == 'Event' %}
+                        <li>
+                            {% if news_event.link %}
+                                <a class="important-notice-item btn-item" href="{% static news_event.link %}">
+                                    <span>{{ news_event.title }}</span>
+                                    <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
+                                </a>
+                            {% else %}
+                                <a class="important-notice-item btn-item" href="#events">
+                                    <span>{{ news_event.title }}</span>
+                                    <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
+                                </a>
+                            {% endif %}
+                            <p>{{ news_event.summary }}</p>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

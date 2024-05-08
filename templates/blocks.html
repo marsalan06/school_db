@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+
+{% block content %}
+    {% if 'Home' in nav_list %}
+        {% include "segments/hero_banner.html" %}
+    {% endif %}
+    
+    {% if show_important_notices and 'Events' in nav_list %}
+        {% include "segments/important_notice.html" %}
+    {% endif %}
+
+    {% if show_about_section and 'About' in nav_list %}
+        {% include "segments/about_section.html" %}
+    {% endif %}
+
+    {% if show_news_section and 'News' in nav_list %}
+        {% include "segments/news_section.html" %}
+    {% endif %}
+
+    {% if show_contact_section and 'Contact' in nav_list %}
+        {% include "segments/contact_section.html" %}
+    {% endif %}
+{% endblock content %}

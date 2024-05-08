@@ -5,13 +5,15 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.conf import settings
+from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import get_current_timezone
 
+
 from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
-                    NewsForm, SchoolForm, TestimonialForm)
+                    NewsForm, SchoolForm, TestimonialForm, ContactForm)
 from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
-                     NewsArticle, School, Testimonial)
+                     NewsArticle, School, Testimonial, ContactFormEntry)
 from .utils import fetch_news_and_events_from_lms
 
 # Create your views here.
@@ -114,39 +116,130 @@ def new_update_preview_view(request, school_id):
     school = get_object_or_404(School, pk=school_id)
 
     # Fetch related objects from the database, ensuring they are related to the fetched school
-    # For lists of objects (navigation, latest_news_articles, testimonials), Django queries return QuerySets
     navigation = NavigationMenu.objects.filter(school=school)
-    # .first() is used to get a single instance or None
+    navigation_list = list(NavigationMenu.objects.filter(
+        school=school).values_list('name', flat=True))
     banner = Banner.objects.filter(school=school).first()
     about_section = AboutSection.objects.filter(school=school).first()
-    latest_news_articles = NewsArticle.objects.filter(school=school)
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms(school.uuid)
 
+    # Handle datetime conversion for news events
     for news_event in news_events:
-        # Convert string to datetime object
         news_event['updated_date'] = parse_datetime(news_event['updated_date'])
         if news_event['updated_date'] and settings.USE_TZ:
-            # Make it timezone-aware, according to your current timezone settings
             news_event['updated_date'] = news_event['updated_date'].astimezone(
                 get_current_timezone())
+
+    # Determine which sections to show
+    show_important_notices = any(
+        event['posted_as'] == 'Event' for event in news_events)
+    show_about_section = about_section is not None
+    show_news_section = any(event['posted_as'] ==
+                            'News' for event in news_events)
+    # Assume you always want to show contact unless specified otherwise
+    show_contact_section = True
 
     # The context dictionary contains all the variables to be passed to the template
     context = {
         'school': school,
         'navigation': navigation,
+        'nav_list': navigation_list,
         'banner': banner,
         'about_section': about_section,
-        'latest_news_articles': latest_news_articles,
         'testimonials': testimonials,
         'footer_content': footer_content,
         'news_events': news_events,
-        'LMS_EXTERNAL_URL': settings.LMS_EXTERNAL_URL
+        'LMS_EXTERNAL_URL': settings.LMS_EXTERNAL_URL,
+        'form': ContactForm(),
+        'show_important_notices': show_important_notices,
+        'show_about_section': show_about_section,
+        'show_news_section': show_news_section,
+        'show_contact_section': show_contact_section,
     }
 
     # The render function combines the template with the context and returns an HttpResponse object
-    return render(request, 'updated_2_preview.html', context)
+    return render(request, 'blocks.html', context)
+
+
+# def new_update_preview_view(request, school_id):
+#     # Fetch the school instance by ID or return a 404 error if not found
+#     school = get_object_or_404(School, pk=school_id)
+
+#     # Fetch related objects from the database, ensuring they are related to the fetched school
+#     # For lists of objects (navigation, latest_news_articles, testimonials), Django queries return QuerySets
+#     navigation = NavigationMenu.objects.filter(school=school)
+#     # .first() is used to get a single instance or None
+#     banner = Banner.objects.filter(school=school).first()
+#     about_section = AboutSection.objects.filter(school=school).first()
+#     latest_news_articles = NewsArticle.objects.filter(school=school)
+#     testimonials = Testimonial.objects.filter(school=school)
+#     footer_content = FooterContent.objects.filter(school=school).first()
+#     news_events = fetch_news_and_events_from_lms(school.uuid)
+
+#     for news_event in news_events:
+#         # Convert string to datetime object
+#         news_event['updated_date'] = parse_datetime(news_event['updated_date'])
+#         if news_event['updated_date'] and settings.USE_TZ:
+#             # Make it timezone-aware, according to your current timezone settings
+#             news_event['updated_date'] = news_event['updated_date'].astimezone(
+#                 get_current_timezone())
+
+#     # The context dictionary contains all the variables to be passed to the template
+#     context = {
+#         'school': school,
+#         'navigation': navigation,
+#         'banner': banner,
+#         'about_section': about_section,
+#         'latest_news_articles': latest_news_articles,
+#         'testimonials': testimonials,
+#         'footer_content': footer_content,
+#         'news_events': news_events,
+#         'LMS_EXTERNAL_URL': settings.LMS_EXTERNAL_URL,
+#         'form': ContactForm()
+#     }
+
+#     # The render function combines the template with the context and returns an HttpResponse object
+#     return render(request, 'updated_2_preview.html', context)
+
+
+def contact_submit(request):
+    if request.method == 'POST':
+        print(request.__dict__)
+        print("-----2-2-2--2--2-2--")
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            print("---3-3--3-3-0---3")
+            # Retrieve form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            phone = form.cleaned_data['phone']
+            message = form.cleaned_data['message']
+            uuid = form.cleaned_data['uuid']
+
+            # Fetch the school_id from School model using uuid
+            try:
+                school_id = School.objects.get(uuid=uuid).id
+            except School.DoesNotExist:
+                messages.error(request, 'Invalid school identifier.')
+                return redirect(request.META.get('HTTP_REFERER', '/'))
+
+            # Create a new ContactFormEntry instance
+            entry = ContactFormEntry(
+                name=name, email=email, phone=phone, message=message, uuid=uuid)
+            entry.save()
+            print("---43---4--4-4--")
+            messages.success(
+                request, 'Your message has been sent successfully!')
+            # Redirect to a success page or handle appropriately
+            print("----")
+            return redirect('new_update_preview', school_id=school_id)
+        else:
+            print("--------5--5-5--5--")
+            # If the form is not valid, re-render the form with error messages
+            messages.error(request, 'Please correct the errors below.')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @csrf_exempt
@@ -167,9 +260,12 @@ def receive_webhook(request):
                     'phone_no': data.get('phone_no', ''),
                     'email': data.get('email', ''),
                     # Ensuring it's a list
-                    'top_bar_notifications': data.get('topbar', '')
+                    # 'top_bar_notifications': data.get('topbar', '')
                 }
             )
+            if len(school.top_bar_notifications) == 0 and data.get('topbar'):
+                school.top_bar_notifications.append(data.get('topbar'))
+
         if logo_file:
             print("Received file with name:", logo_file.name)
             school.logo.save(logo_file.name, logo_file, save=True)

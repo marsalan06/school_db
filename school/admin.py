@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
-                     NewsArticle, School, Testimonial)
+                     NewsArticle, School, Testimonial, ContactFormEntry)
 
 # Register your models here.
 
@@ -51,3 +51,4 @@ class SchoolAdmin(admin.ModelAdmin):
 
 # Register the School admin
 admin.site.register(School, SchoolAdmin)
+admin.site.register(ContactFormEntry)

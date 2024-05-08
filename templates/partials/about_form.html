@@ -1,9 +1,0 @@
-{% load static %}
-
-<!-- partials/about_form.html -->
-{{form_name}}
-<form id="about-form" onsubmit="event.preventDefault(); submitForm('about');">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save About Details</button>
-</form>

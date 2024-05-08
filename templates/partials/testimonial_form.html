@@ -1,9 +1,0 @@
-{% load static %}
-
-<!-- partials/testimonial_form.html -->
-{{form_name}}
-<form id="testimonial-form" onsubmit="event.preventDefault(); submitForm('testimonial');">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Testimonial</button>
-</form>

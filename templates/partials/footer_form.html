@@ -1,9 +1,0 @@
-{% load static %}
-
-<!-- partials/footer_form.html -->
-{{form_name}}
-<form id="footer-form" onsubmit="event.preventDefault(); submitForm('footer');">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Footer</button>
-</form>

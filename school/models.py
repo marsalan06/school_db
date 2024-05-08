@@ -30,6 +30,18 @@ class School(models.Model):
         return f'{self.name}_{self.domain}_{self.uuid}'
 
 
+class ContactFormEntry(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    message = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    uuid = models.CharField(max_length=6)
+
+    def __str__(self):
+        return f"{self.name} - {self.email}"
+
+
 class NavigationMenu(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)

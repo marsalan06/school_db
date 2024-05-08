@@ -1,0 +1,37 @@
+{% load static %}
+<div class="recent-new" id="news">
+    <div class="sec-inner">
+        <h2 class="sub-title">Recent News</h2>
+        <div class="news-sec">
+            {% for news_event in news_events %}
+                {% if news_event.posted_as == 'News' %}
+                    <div class="news-body d-flex flex-column">
+                        <p>{{ news_event.title }}</p>
+                        <a>
+                            {% if news_event.image_url %}
+                                <img src="{% static news_event.image_url %}" alt="{{ news_event.title }}">
+                            {% else %}
+                                <img src="{% static 'news1.jpg' %}" alt="Default News Image">
+                            {% endif %}
+                        </a>
+                        <div class="date-tag d-flex">
+                            <span class="date">{{ news_event.updated_date|date:"M d, Y" }}</span>
+                            <ul class="d-flex">
+                                {% for tag in news_event.tags %}
+                                    {% if forloop.counter|divisibleby:2 %}
+                                            <li><a class="yellow">{{ tag }}</a></li>
+                                    {% else %}
+                                            <li><a class="green">{{ tag }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <a href="{{ news_event.link }}">
+                            <h3 class="news-title">{{ news_event.summary }}</h3>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
