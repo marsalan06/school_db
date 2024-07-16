@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'colorfield',
     'captcha',
     'school',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'school.middleware.SchoolDomainMiddleware'
 ]
 
 ROOT_URLCONF = 'schooltech.urls'
@@ -75,6 +77,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'schooltech.wsgi.application'
 
+SITE_ID = 1  # This is the default site ID
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

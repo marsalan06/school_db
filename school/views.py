@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.utils.dateparse import parse_datetime
@@ -111,9 +112,15 @@ def update_preview_view(request, school_id):
     })
 
 
-def new_update_preview_view(request, school_id):
+def new_update_preview_view(request, school_id=None):
     # Fetch the school instance by ID or return a 404 error if not found
-    school = get_object_or_404(School, pk=school_id)
+    if school_id:
+        school = get_object_or_404(School, pk=school_id)
+    else:
+        print("-----tt-t--t-", request.school, flush=True)
+        if not request.school:
+            raise Http404("School not found")
+        school = request.school
 
     # Fetch related objects from the database, ensuring they are related to the fetched school
     navigation = NavigationMenu.objects.filter(school=school)
