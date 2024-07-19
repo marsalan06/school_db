@@ -11,3 +11,5 @@ DEBUG=True
 SECRET_KEY=[YOUR_SECRET_KEY]
 POSTGRES_HOST_AUTH_METHOD=trust
 ```
+
+For allowed host we have to create allowed_hosts.json file (if not present) parallel to Dockerfile and place allowed hosts in it before the build is made
