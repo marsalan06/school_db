@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import json
 from pathlib import Path
 
 from decouple import config
@@ -28,7 +29,18 @@ SECRET_KEY = 'django-insecure-nlkh$7bp%&*28oq9!l&&4udd-dg+ix-p%7=@0ew-2j119uem6h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+allowed_hosts_file = os.path.join(BASE_DIR, 'allowed_hosts.json')
+
+
+# Load allowed hosts from JSON file
+def load_allowed_hosts():
+    with open(allowed_hosts_file) as f:
+        data = json.load(f)
+    return data.get('allowed_hosts', [])
+
+
+ALLOWED_HOSTS = load_allowed_hosts()
 
 
 # Application definition
@@ -49,12 +61,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'school.middleware.HostRestrictMiddleware',  # Place custom middleware here
     'django.middleware.common.CommonMiddleware',
+    'school.middleware.SchoolDomainMiddleware',  # Custom middleware
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'school.middleware.SchoolDomainMiddleware'
 ]
 
 ROOT_URLCONF = 'schooltech.urls'
