@@ -1,0 +1,25 @@
+{% load static %}
+<!-- ***** Main Banner Area End ***** -->
+<section class="notifications" data-section="section1">
+    <div class="container">
+      <div class="row">
+        {% for key, value in school.top_bar_notifications.items %}
+        <div class="col-lg-4 col-12">
+          <div class="features-post {% if forloop.first %}second-features{% elif forloop.last %}third-features{% endif %}">
+            <div class="features-content">
+              <div class="content-show">
+                <h4><i class="fa fa-info-circle"></i>{{ key|capfirst }}</h4>
+              </div>
+              <div class="content-hide">
+                <p>
+                    {{ value |default:"No value"}}
+                </p>
+                <!-- <p class="hidden-sm">Curabitur id eros vehicula, tincidunt libero eu, lobortis mi. In mollis eros a posuere imperdiet.</p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+</section>

@@ -127,48 +127,90 @@ def new_update_preview_view(request, school_id=None):
     navigation_list = list(NavigationMenu.objects.filter(
         school=school).values_list('name', flat=True))
     banner = Banner.objects.filter(school=school).first()
-    about_section = AboutSection.objects.filter(school=school).first()
+    about_sections = AboutSection.objects.filter(school=school)[:3]
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms(school.uuid)
-
+    
+    
+    # testimonials = json.dumps(testimonials)
+    show_testimonials=False
+    if testimonials.exists():
+        show_testimonials=True
     # Handle datetime conversion for news events
     for news_event in news_events:
         news_event['updated_date'] = parse_datetime(news_event['updated_date'])
         if news_event['updated_date'] and settings.USE_TZ:
             news_event['updated_date'] = news_event['updated_date'].astimezone(
                 get_current_timezone())
-
     # Determine which sections to show
     show_important_notices = any(
         event['posted_as'] == 'Event' for event in news_events)
-    show_about_section = about_section is not None
-    show_news_section = any(event['posted_as'] ==
-                            'News' for event in news_events)
+    show_about_section = about_sections is not None
+    show_news_section = any(event['posted_as'] =='News' for event in news_events)
+    show_event_section = any(event['posted_as'] =='Event' for event in news_events)
+
     # Assume you always want to show contact unless specified otherwise
     show_contact_section = True
+    
+    
+    
+    
+    import requests
 
+    url = "https://map-geocoding.p.rapidapi.com/json"
+    address=school.address
+    querystring = {"address":address}
+
+    headers = {
+        "x-rapidapi-key": "3d6b59209dmshd4039e2ff91f487p13c893jsnfe213110671d",
+        "x-rapidapi-host": "map-geocoding.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers, params=querystring)
+    data = response.json()
+    latitude=''
+    longitude=''
+    print(data)
+    if 'results' in data and len(data['results']) > 0:
+        location = data['results'][0]['geometry']['location']
+        latitude = location['lat']
+        longitude = location['lng']
+        print(f"Latitude: {latitude}, Longitude: {longitude}")
+    else:
+        print("No results found or unexpected response format.")
+    
+    
+    
     # The context dictionary contains all the variables to be passed to the template
     context = {
         'school': school,
         'navigation': navigation,
         'nav_list': navigation_list,
         'banner': banner,
-        'about_section': about_section,
+        'about_sections': about_sections,
         'testimonials': testimonials,
         'footer_content': footer_content,
         'news_events': news_events,
         'LMS_EXTERNAL_URL': settings.LMS_EXTERNAL_URL,
+        'latitude':latitude,
+        'longitude':longitude,
         'form': ContactForm(),
         'show_important_notices': show_important_notices,
         'show_about_section': show_about_section,
         'show_news_section': show_news_section,
+        'show_event_section':show_event_section,
         'show_contact_section': show_contact_section,
+        'show_testimonials':show_testimonials
     }
+    
 
+    if school.premium:
     # The render function combines the template with the context and returns an HttpResponse object
-    return render(request, 'blocks.html', context)
-
+        return render(request, 'blocks_premium.html', context)
+    else:
+        return render(request, 'blocks.html', context)
+        
 
 # def new_update_preview_view(request, school_id):
 #     # Fetch the school instance by ID or return a 404 error if not found

@@ -1,0 +1,61 @@
+{% load static %}
+<footer>
+    <div class="top-bar"></div>
+    <div class="main-links d-flex">
+        <div class="column-1">
+            <img alt="Footer Logo" src="{{ school.logo.url }}">
+        </div>
+        <div class="column column-2">
+            <h3>Academic Programs</h3>
+            <ul>
+                <li><a href="/">Undergraduate Programs</a></li>
+                <li><a href="/">Graduate School</a></li>
+            </ul>
+        </div>
+        <div class="column column-3">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#">Admission Requirements</a></li>
+                <li><a href="/">Tuition Fees</a></li>
+                <li><a href="/">Scholarships and Financial Aid</a></li>
+            </ul>
+        </div>
+        <div class="column column-4">
+            <h3>Downloads</h3>
+            <ul>
+                <li><a href="/">School Prospectus</a></li>
+                <li><a href="/">Annual Report 2024</a></li>
+            </ul>
+        </div>
+        <div class="column column-5">
+            <div>
+                <h3>Get in Touch</h3>
+                <ul>
+                    <li><a href="/">Contact Us</a></li>
+                    <li><a href="/">Maps & Directions</a></li>
+                    <li><a href="/">Jobs</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="column column-6">
+            <div>
+                <h3>Connect with us</h3>
+                <ul class="d-flex">
+                    <li>
+                        <a href="/">
+                            <img src="{% static 'insta.svg' %}">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/">
+                            <img src="{% static 'facebook.svg' %}">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright (c) 2024 {{ school.name }}</p>
+    </div>
+</footer>

@@ -20,9 +20,14 @@ class School(models.Model):
     address = models.CharField(max_length=255)
     primary_color = ColorField(max_length=10, default='#0000FF')
     secondary_color = ColorField(max_length=10, default='#808080')
+    premium = models.BooleanField(default=False)
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     logo = models.ImageField(upload_to='logos/', default='sample_logo.png')
+    banner_video = models.FileField(upload_to='banner_videos/', blank=True, null=True, help_text="Upload a promotional video for the school.") 
+    info= models.TextField(blank=True)
+    video = models.FileField(upload_to='videos/', blank=True, null=True, help_text="Upload a promotional video for the school.") 
+    video_thumbnail = models.ImageField(upload_to='video_thumbnail/', default='sample_logo.png',  blank=True, null=True )
     top_bar_notifications = JSONField(encoder=DjangoJSONEncoder, default=list, blank=True, help_text=_(
         "List of notifications for the top bar"))
 

@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="recent-new" id="news"  data-section="news ff">
+    <div class="sec-inner">
+        <h2 class="sub-title">Recent News</h2>
+
+        <!-- News Items Container -->
+        <div class="news-sec" id="news-container">
+            {% for news_event in news_events %}
+                {% if news_event.posted_as == 'News'  %}
+                    <div class="news-body" data-title="{{ news_event.title }}" data-link="{{ news_event.link }}" data-image="{% static news_event.image_url %}" data-summary="{{ news_event.summary }}" data-date="{{ news_event.updated_date|date:"M d, Y" }}">
+                        {% if news_event.image_url %}
+                            <img src="{% static news_event.image_url %}" alt="{{ news_event.title }}">
+                        {% else %}
+                            <img src="{% static 'news1.jpg' %}" alt="Default News Image">
+                        {% endif %}
+                        <h3 class="news-title">{{ news_event.title }}</h3>
+                        <div class="date-tag">
+                            <span class="date">{{ news_event.updated_date|date:"M d, Y" }}</span>
+                        </div>
+                        <div class="news-summary">
+                            <h3>Summary: {{ news_event.summary }}</h3>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %} 
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-controls">
+            <button id="prev-news-btn">Previous</button>
+            <button id="next-news-btn">Next</button>
+        </div>
+    </div>
+</div>
+<script src="{% static 'premium_js/news.js' %}"></script>

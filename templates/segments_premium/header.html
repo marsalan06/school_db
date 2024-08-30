@@ -1,0 +1,45 @@
+{% load static %}
+<header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a class='site-logo' href='./'>
+        <img src="{{ school.logo.url }}" alt='Header logo'>
+    </a>
+    </div>
+  
+  <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+  <nav id="menu" class="main-nav" role="navigation">
+ 
+    <ul class="main-menu">
+      {% for item in navigation %}
+      <li>
+          {% if "news" in item.name|lower  %}
+              <a class='' href="#news">
+                  {{ item.name }}
+              </a>
+          {% elif "testimonials" in item.name|lower %}
+              <a class='' href="#testimonials">
+                  {{ item.name }}
+              </a>
+          {% elif "contact us" in item.name|lower or "contact" in item.name|lower or "contact_us" in item.name|lower %}
+             <div  class='scroll-to-section'> <a class='' href="#contact_us">
+                  {{ item.name }}
+              </a></div>
+              {% elif "events" in item.name|lower %}
+                  <a class='scroll-to-section' href="#events">
+                      {{ item.name }}
+                  </a>
+                  {% elif "about us" in item.name|lower or "about" in item.name|lower or "home" in item.name|lower %}
+                      <a class='scroll-to-section' href="#why_us">
+                          {{ item.name }}
+                      </a>
+              {% else %}
+          <div class="scroll-to-section"> <a class='' href="#{{ item.name|lower }}">
+                  {{ item.name }}
+              </a></div>
+          {% endif %}
+      </li>
+      {% endfor %}
+  </ul>
+
+  </nav> 
+</header>

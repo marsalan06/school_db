@@ -1,0 +1,29 @@
+
+{% load static %}
+<section class="section main-banner" id="top" data-section="section1">
+    <video autoplay muted loop id="bg-video">
+
+        {% if school.banner_video %}
+        <source src="{% static school.banner_video %}" type="video/mp4">
+                      
+                        {% else %}
+                            
+                        <source src="{% static 'images/course-video.mp4' %}" type="video/mp4">
+  
+                        {% endif %}
+        
+      </video>
+  
+    <div class="video-overlay header-text">
+        <div class="caption">
+            <!-- <h6>Graduate School of Management</h6> -->
+            <h2><em>{{ school.name }}  </em>
+               </h2>
+            
+            
+            <div class="main-button">
+                <div class="scroll-to-section"><a href="#why_us">Discover more</a></div>
+            </div>
+        </div> 
+    </div>
+  </section> 
