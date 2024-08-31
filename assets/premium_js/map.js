@@ -1,8 +1,6 @@
 function initMap() {
     // Coordinates passed from Django context
     var location = { lat:  latitude , lng:  longitude  };
-    console.log("shit\n\n\n")
-
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         center: location

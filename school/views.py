@@ -156,31 +156,6 @@ def new_update_preview_view(request, school_id=None):
     
     
     
-    import requests
-
-    url = "https://map-geocoding.p.rapidapi.com/json"
-    address=school.address
-    querystring = {"address":address}
-
-    headers = {
-        "x-rapidapi-key": "3d6b59209dmshd4039e2ff91f487p13c893jsnfe213110671d",
-        "x-rapidapi-host": "map-geocoding.p.rapidapi.com"
-    }
-
-    response = requests.get(url, headers=headers, params=querystring)
-    data = response.json()
-    latitude=''
-    longitude=''
-    print(data)
-    if 'results' in data and len(data['results']) > 0:
-        location = data['results'][0]['geometry']['location']
-        latitude = location['lat']
-        longitude = location['lng']
-        print(f"Latitude: {latitude}, Longitude: {longitude}")
-    else:
-        print("No results found or unexpected response format.")
-    
-    
     
     # The context dictionary contains all the variables to be passed to the template
     context = {
@@ -193,8 +168,6 @@ def new_update_preview_view(request, school_id=None):
         'footer_content': footer_content,
         'news_events': news_events,
         'LMS_EXTERNAL_URL': settings.LMS_EXTERNAL_URL,
-        'latitude':latitude,
-        'longitude':longitude,
         'form': ContactForm(),
         'show_important_notices': show_important_notices,
         'show_about_section': show_about_section,

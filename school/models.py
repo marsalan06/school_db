@@ -1,5 +1,5 @@
 import uuid
-
+import requests
 from colorfield.fields import ColorField
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models.fields.json import JSONField
@@ -31,6 +31,48 @@ class School(models.Model):
     top_bar_notifications = JSONField(encoder=DjangoJSONEncoder, default=list, blank=True, help_text=_(
         "List of notifications for the top bar"))
 
+    
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.pk:  # Check if this is an existing instance
+            old_instance = School.objects.get(pk=self.pk)
+            if old_instance.address != self.address:
+                
+                # Address has changed, so update latitude and longitude
+                geocode_data = self.get_geocode(self.address)
+                if geocode_data:
+                    self.latitude = geocode_data.get('lat')
+                    self.longitude = geocode_data.get('lng')
+        else:
+            # New instance: address is not checked here as there's no old value
+            geocode_data = self.get_geocode(self.address)
+            if geocode_data:
+                self.latitude = geocode_data.get('lat')
+                self.longitude = geocode_data.get('lng')
+        super(School, self).save(*args, **kwargs)
+
+    
+    
+    def get_geocode(self, address):
+        url = "https://map-geocoding.p.rapidapi.com/json"
+        querystring = {"address": address}
+        headers = {
+            "x-rapidapi-key": "3d6b59209dmshd4039e2ff91f487p13c893jsnfe213110671d",
+            "x-rapidapi-host": "map-geocoding.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        data = response.json()
+        
+        if 'results' in data and len(data['results']) > 0:
+            location = data['results'][0]['geometry']['location']
+            return {
+                'lat': location['lat'],
+                'lng': location['lng']
+            }
+        return None
+                
     def __str__(self):
         return f'{self.name}_{self.domain}_{self.uuid}'
 

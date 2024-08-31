@@ -47,6 +47,7 @@ class SchoolAdmin(admin.ModelAdmin):
         TestimonialInline,
         FooterContentInline,
     ]
+    # exclude = ('latitude', 'longitude') 
 
 
 # Register the School admin
