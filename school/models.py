@@ -5,8 +5,10 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models.fields.json import JSONField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
-
+from django.core.validators import URLValidator
 from .models_utils import (default_json_data_links,
                            default_json_data_social_media)
 
@@ -27,6 +29,7 @@ class School(models.Model):
     banner_video = models.FileField(upload_to='banner_videos/', blank=True, null=True, help_text="Upload a promotional video for the school.") 
     info= models.TextField(blank=True)
     video = models.FileField(upload_to='videos/', blank=True, null=True, help_text="Upload a promotional video for the school.") 
+    video_url = models.URLField(blank=True,null=True,help_text="Or provide a URL to a promotional video for the school.",validators=[URLValidator()])
     video_thumbnail = models.ImageField(upload_to='video_thumbnail/', default='sample_logo.png',  blank=True, null=True )
     top_bar_notifications = JSONField(encoder=DjangoJSONEncoder, default=list, blank=True, help_text=_(
         "List of notifications for the top bar"))
@@ -34,44 +37,47 @@ class School(models.Model):
     
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        if self.pk:  # Check if this is an existing instance
-            old_instance = School.objects.get(pk=self.pk)
-            if old_instance.address != self.address:
-                
-                # Address has changed, so update latitude and longitude
-                geocode_data = self.get_geocode(self.address)
-                if geocode_data:
-                    self.latitude = geocode_data.get('lat')
-                    self.longitude = geocode_data.get('lng')
-        else:
-            # New instance: address is not checked here as there's no old value
-            geocode_data = self.get_geocode(self.address)
-            if geocode_data:
-                self.latitude = geocode_data.get('lat')
-                self.longitude = geocode_data.get('lng')
-        super(School, self).save(*args, **kwargs)
-
+    course_name = models.CharField(max_length=255,null=True, blank=True)
+    course_registration_end_date  = models.DateField(null=True, blank=True)
     
-    
-    def get_geocode(self, address):
-        url = "https://map-geocoding.p.rapidapi.com/json"
-        querystring = {"address": address}
-        headers = {
-            "x-rapidapi-key": "3d6b59209dmshd4039e2ff91f487p13c893jsnfe213110671d",
-            "x-rapidapi-host": "map-geocoding.p.rapidapi.com"
-        }
-        response = requests.get(url, headers=headers, params=querystring)
-        data = response.json()
+    def clean(self):
+        # Ensure that either video_file or video_url is provided, but not both
+        if not self.video and not self.video_url:
+            raise ValidationError('At least one of video_file or video_url must be provided.')
+        if self.video and self.video_url:
+            raise ValidationError('You cannot provide both video_file and video_url. Choose one.')
+
+        if bool(self.course_name) != bool(self.course_registration_end_date):
+            raise ValidationError('Both course_name and date must be provided together or left blank together.')
+
+        if self.course_registration_end_date and self.course_registration_end_date <= timezone.now().date():
+            raise ValidationError('The date must be greater than today.')
         
-        if 'results' in data and len(data['results']) > 0:
-            location = data['results'][0]['geometry']['location']
-            return {
-                'lat': location['lat'],
-                'lng': location['lng']
-            }
-        return None
+    def save(self, *args, **kwargs):
+        if not self.pk:  # Check if this is an existing instance
+            super(School, self).save(*args, **kwargs)
+            
+            menu_items = [
+                ("Home", "-"),
+                ("About Us", "-"),
+                ("Testimonials", "-"),
+                ("News", "-"),
+                ("Events", "-"),
+                ("Contact Us", "-"),
+            ]
+            
+            for name, link in menu_items:
+                NavigationMenu.objects.get_or_create(
+                    school=self,
+                    name=name,
+                    link=link
+                )
+        else:
+            
+            super(School, self).save(*args, **kwargs)
+            
+
+    
                 
     def __str__(self):
         return f'{self.name}_{self.domain}_{self.uuid}'

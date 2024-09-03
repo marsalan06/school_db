@@ -1,5 +1,5 @@
 @import url(fontawesome.css);
-@import url('<link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">'); 
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900');
 body {
   font-family: "Montserrat", sans-serif;
 }
@@ -326,84 +326,123 @@ a.menu-link {
     font-size: 36px;
   }
 }
-/* notifications */
-.notifications .col-4 {
-  padding-left: 0px;
-  padding-right: 0px;
+
+/* Notifications Section */
+.notifications {
+  background-color: var(--secondary-color); /* Background color for the section */
+  padding: 20px 0; /* Padding for top and bottom */
 }
+
+/* Flexbox for row alignment */
+.notifications .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center columns in the row */
+}
+
+/* General Styles for Columns */
+.notifications .col-lg-4, 
+.notifications .col-12 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Styling for feature posts */
 .features-post {
   position: relative;
-  margin-bottom: 0px;
+  margin: 15px; /* Add margin to prevent columns from sticking together */
+  width: 100%;
+  max-width: 400px; /* Adjust as needed for better fit */
 }
+
+/* Differentiate first and last features */
+.second-features {
+  border-left: 1px solid var(--bg-primary); /* Left border for first feature */
+}
+
+.third-features {
+  border-right: 1px solid var(--bg-primary); /* Right border for last feature */
+}
+
+/* Feature thumb styles */
 .features-thumb {
   overflow: hidden;
   position: relative;
 }
+
 .features-thumb img {
   width: 100%;
+  display: block;
 }
+
+/* Feature content styles */
 .features-content {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: var(--secondary-color);
-  color: var(--white-color);
-  padding: 40px;
+  background-color: var(--secondary-color); /* Background color */
+  color: var(--white-color); /* Text color */
+  padding: 20px;
+  box-sizing: border-box; /* Ensure padding does not affect width */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .features-content:hover {
-  background-color: var(--primary-color);
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+  background-color: var(--primary-color); /* Background color on hover */
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5); /* Shadow effect */
 }
+
+/* Heading and icon styles */
 .features-content h4 {
-  font-size: 26px;
+  font-size: 20px; /* Font size for heading */
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--white-color);
+  color: var(--white-color); /* Text color */
   letter-spacing: 1px;
-  margin-bottom: 0px;
+  margin-bottom: 10px; /* Margin for spacing */
 }
+
 .features-content h4 i {
-  margin-right: 15px;
-  font-size: 24px;
+  margin-right: 10px; /* Margin for icon */
+  font-size: 20px; /* Icon size */
 }
+
+/* Paragraph styles */
 .features-content p {
-  margin-bottom: 0px;
-  font-size: 18px;
+  margin-bottom: 0;
+  font-size: 16px; /* Font size for text */
 }
-.features-content p.hidden-sm {
-  display: none;
-}
-.second-features,
-.third-features {
-  border-left: 1px solid var(--bg-primary);
-}
+
+/* Hide additional content initially */
 .content-hide {
   margin-top: 15px;
   display: none;
 }
-.content-hide p {
-  color: var(--white-color);
-}
+
+/* Content visibility for small screens */
 @media screen and (max-width: 767px) {
   .features-content {
     padding: 15px;
   }
-  .features-content h4 i {
-    display: block;
-    margin-bottom: 10px;
-  }
+
   .features-content h4 {
-    font-size: 14px;
+    font-size: 16px; /* Smaller font size for heading */
   }
-  .features-content p {
-    display: none;
+
+  .features-content h4 i {
+    font-size: 18px; /* Smaller icon size */
   }
+
   .features-content p.hidden-sm {
-    display: block;
+    display: block; /* Show hidden paragraphs on small screens */
   }
+
   .features-content a {
-    letter-spacing: 0px;
+    letter-spacing: 0;
     font-size: 13px;
     font-weight: 600;
   }
@@ -769,15 +808,11 @@ a.menu-link {
 
 
 
-
-
-/* testomonials *//* Testimonial container styling */
+/* Testimonial container styling */
 .testimonial-container {
   background-color: var(--secondary-color);
-  /* border: 2px solid red; */
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
-  0 -4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
   width: 100%;
   position: relative;
@@ -788,14 +823,13 @@ a.menu-link {
   gap: 10px;
 }
 
-.testimonial-container h2{
+.testimonial-container h2 {
   color: var(--white-color);
   font-size: 32px;
 }
 
 /* Testimonial box styling */
 .testimonial-box {
-   
   filter: brightness(1.2);
   border: 2px solid var(--secondary-color);
   border-radius: 8px;
@@ -804,15 +838,13 @@ a.menu-link {
   width: 17%;
   color: white;
   transition: transform 0.3s ease, opacity 0.5s ease;
-  /* Ensure the initial transform scale is set correctly */
   transform: scale(1);
 }
 
-/* Ensure hover effect is applied correctly */
 .testimonial-box:hover {
-  transform:scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); /* Ensure box-shadow is visible */
-  z-index: 1; /* Bring to the front to avoid overlap issues */
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+  z-index: 1;
 }
 
 /* Testimonial boxes container styling */
@@ -828,32 +860,31 @@ a.menu-link {
 
 /* Styling for quote inside testimonial-box */
 .testimonial-box #quote {
-  font-size: 1.85em; /* Adjust size as needed */
+  font-size: 1.85em;
   font-style: italic;
-  color: var(--primary-color); /* Ensure this variable is defined */
+  color: var(--primary-color);
   text-align: center;
-  margin-bottom: 15px; /* Space below the quote */
-  line-height: 1.5; /* Improve readability */
+  margin-bottom: 15px;
+  line-height: 1.5;
 }
 
 /* Styling for author inside testimonial-box */
 .testimonial-box #author {
-  font-size: 1.1em; /* Slightly smaller than the quote */
+  font-size: 1.1em;
   font-weight: bold;
-  color: var(--black-color); /* Match primary color for consistency */
+  color: var(--black-color);
   text-align: center;
-  margin-bottom: 10px; /* Space below the author */
+  margin-bottom: 10px;
 }
 
 /* Styling for relation inside testimonial-box */
 .testimonial-box #relation {
-  font-size: 1em; /* Same size as the body text */
-  color: var(--text-color); /* Match the container’s secondary color */
+  font-size: 1em;
+  color: var(--text-color);
   text-align: center;
   font-style: italic;
-  margin-top: 5px; /* Space above the relation */
+  margin-top: 5px;
 }
-
 
 /* Transition effect for fading out */
 .testimonial-boxes.fade-out {
@@ -888,7 +919,6 @@ a.menu-link {
 /* Button styling */
 button {
   background-color: transparent;
-  /* border: 2px solid var(--primary-color); */
   color: var(--primary-color);
   border-radius: 5px;
   cursor: pointer;
@@ -905,6 +935,71 @@ button:hover {
   filter: brightness(1.2);
 }
 
+/* Media Queries for small screens */
+@media (max-width: 768px) {
+  .testimonial-boxes {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .testimonial-box {
+    width: 80%;
+  }
+
+  .testimonial-container h2 {
+    font-size: 24px;
+  }
+
+  .testimonial-box #quote {
+    font-size: 1.5em;
+  }
+
+  .testimonial-box #author {
+    font-size: 1em;
+  }
+
+  .testimonial-box #relation {
+    font-size: 0.9em;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  button {
+    width: 100%;
+    min-width: unset;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial-box {
+    width: 100%;
+  }
+
+  .testimonial-container h2 {
+    font-size: 20px;
+  }
+
+  .testimonial-box #quote {
+    font-size: 1.2em;
+  }
+
+  .testimonial-box #author {
+    font-size: 0.9em;
+  }
+
+  .testimonial-box #relation {
+    font-size: 0.8em;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
 
 
 

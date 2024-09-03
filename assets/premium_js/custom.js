@@ -81,7 +81,7 @@
 	    var days = Math.floor(t / (1000 * 60 * 60 * 24));
 	    return {
 	      'total': t,
-	      'days': days,
+	      'days': days, 
 	      'hours': hours,
 	      'minutes': minutes,
 	      'seconds': seconds
@@ -100,7 +100,9 @@
 	    }
 	  },1000);
 	}
-	initializeClock(((new Date()).getFullYear()+1) + "/1/1")
+
+	initializeClock(endDate);
+	// initializeClock(((new Date()).getFullYear()+1) + "/1/1")
 	})()
 
 })(jQuery);

@@ -1,9 +1,14 @@
 from django.contrib import admin
-
+from django.conf import settings
 from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
                      NewsArticle, School, Testimonial, ContactFormEntry)
 
+from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404
+from .utils import update_lat_lon
 # Register your models here.
+
+
 
 
 class NavigationMenuInline(admin.TabularInline):
@@ -35,7 +40,6 @@ class FooterContentInline(admin.TabularInline):
     model = FooterContent
     extra = 1
 
-# School admin
 
 
 class SchoolAdmin(admin.ModelAdmin):
@@ -47,9 +51,8 @@ class SchoolAdmin(admin.ModelAdmin):
         TestimonialInline,
         FooterContentInline,
     ]
-    # exclude = ('latitude', 'longitude') 
-
-
+    actions=[update_lat_lon]
+  
 # Register the School admin
 admin.site.register(School, SchoolAdmin)
 admin.site.register(ContactFormEntry)

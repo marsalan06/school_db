@@ -25,10 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-nlkh$7bp%&*28oq9!l&&4udd-dg+ix-p%7=@0ew-2j119uem6h'
+# RAPID_API_KEY='3d6b59209dmshd4039e2ff91f487p13c893jsnfe213110671d'
+RAPID_API_KEY='0245c9fa4cmsh599ab8b27a46463p1cd879jsn74d56227ddd4'
+GEO_CODE_API='66d56e32f128c116297185bmf97dea2'
+GOOGLE_MAPS_API_KEY = 'AIzaSyBaizizRvXTQZ7KU3i3ZtDiSnW2I8vimF0'
+GOOGLE_MAPS_MAP_ID = '27a4b3580577b009'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+ 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 allowed_hosts_file = os.path.join(BASE_DIR, 'allowed_hosts.json')
 
@@ -83,6 +88,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'schooltech.context_processors.google_maps_context',
             ],
         },
     },

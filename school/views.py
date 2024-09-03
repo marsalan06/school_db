@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import get_current_timezone
+from django.utils import timezone
 
 
 from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
@@ -131,7 +132,17 @@ def new_update_preview_view(request, school_id=None):
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms(school.uuid)
-    
+    print("-------------")
+    show_coming_soon=False
+    print(school.top_bar_notifications)
+    if bool(school.course_name):
+        show_coming_soon=True
+# Convert dictionary items to a list of tuples
+    items_list = list(school.top_bar_notifications.items())
+    last_three_items = items_list[-3:]
+
+    last_three_dict = dict(last_three_items)
+    school.top_bar_notifications = last_three_dict
     
     # testimonials = json.dumps(testimonials)
     show_testimonials=False
@@ -146,7 +157,7 @@ def new_update_preview_view(request, school_id=None):
     # Determine which sections to show
     show_important_notices = any(
         event['posted_as'] == 'Event' for event in news_events)
-    show_about_section = about_sections is not None
+    show_about_section = about_sections.exists()
     show_news_section = any(event['posted_as'] =='News' for event in news_events)
     show_event_section = any(event['posted_as'] =='Event' for event in news_events)
 
@@ -174,7 +185,8 @@ def new_update_preview_view(request, school_id=None):
         'show_news_section': show_news_section,
         'show_event_section':show_event_section,
         'show_contact_section': show_contact_section,
-        'show_testimonials':show_testimonials
+        'show_testimonials':show_testimonials,
+        'show_coming_soon':show_coming_soon
     }
     
 

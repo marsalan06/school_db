@@ -6,7 +6,7 @@
 {% block content %}
 
 <!-- ***** Main Banner Area Start ***** -->
-{% include "segments_premium/video_banner.html" %}
+{% include "segments_premium/video_banner.html" %} 
 
 {% include "segments_premium/notifications.html" %}
 
@@ -17,7 +17,9 @@
 {% endif %}
 
 
+{% if show_coming_soon %}
 {% include "segments_premium/comming_soon.html" %}
+{% endif %}
 
 
 {% if show_event_section and 'Events' in nav_list %}

@@ -1,14 +1,25 @@
-function initMap() {
+
+let map;
+async function initMap() {
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+
+    
     // Coordinates passed from Django context
     var location = { lat:  latitude , lng:  longitude  };
-    var map = new google.maps.Map(document.getElementById('map'), {
+    
+    const { Map } = await google.maps.importLibrary("maps");
+    map = new Map(document.getElementById('map'), {
         zoom: 15,
-        center: location
+        center: location,
+        mapId: '{{ GOOGLE_MAPS_MAP_ID }}'
+        
+        // https://console.cloud.google.com/google/maps-apis/studio/maps/27a4b3580577b009?project=clear-aurora-434315-s8
     });
 
-    var marker = new google.maps.Marker({
+    const marker = new AdvancedMarkerElement({
+        map,
         position: location,
-        map: map
+        title: 'Uluru',
     });
 }
 
@@ -16,3 +27,4 @@ function initMap() {
 document.addEventListener('DOMContentLoaded', function() {
     initMap();
 });
+

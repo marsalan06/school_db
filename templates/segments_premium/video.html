@@ -9,7 +9,7 @@
                     <h4>Watch the video to learn more <em>{{ school.name }}</em></h4>
                     <p>
                         {% if school.info %}
-                        {{school.info}}
+                        {{ school.info }}
                         {% else %}
                         {{ school.name }} is one of the most renowned 
                         organizations in its field. With a longstanding 
@@ -22,7 +22,6 @@
                         holistic approach to education, {{ school.name }} 
                         continues to shape the future leaders of tomorrow.
                         {% endif %}
-                        
                     </p>
                     <div class="main-button">
                         <a rel="nofollow" href="#" target="_parent">External URL</a>
@@ -35,7 +34,16 @@
                         <h4>{{ school.name }}</h4>
                     </div>
                     <figure>
-                        {% if school.video %}
+                        {% if school.video_url %}
+                            <!-- If video_url is present, embed the video using iframe -->
+                            <!-- <iframe width="560" height="315" src="{{ school.video_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+                            <a href="{{ school.video_url }}" class="play">
+                                <img src="{% if school.video_thumbnail %}{% static school.video_thumbnail %}{% else %}{% static 'images/main-thumb.png' %}{% endif %}" alt="Video Thumbnail">
+                            </a>
+
+                        {% elif school.video %}
+                            <!-- If video_url is not present but video file is available -->
                             <video controls 
                                    {% if school.video_thumbnail %}
                                        poster="{% static school.video_thumbnail %}"
@@ -43,10 +51,10 @@
                                        poster="{% static 'images/main-thumb.png' %}"
                                    {% endif %}>
                                 <source src="{% static school.video %}" type="video/mp4">
-                                Your browser does not support the video tag.  <a href="{% static school.video %}">Download the video</a>
+                                Your browser does not support the video tag. <a href="{% static school.video %}">Download the video</a>
                             </video>
                         {% else %}
-                            <!-- Display default link if video does not exist -->
+                            <!-- Display default link or image if neither video_url nor video file exists -->
                             <a href="https://www.youtube.com/watch?v=r9LtOG6pNUw" class="play">
                                 <img src="{% static 'images/main-thumb.png' %}" alt="Video Thumbnail">
                             </a>
