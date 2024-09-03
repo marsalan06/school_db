@@ -11,3 +11,4 @@ psycopg2-binary==2.9.5  # https://github.com/psycopg/psycopg2
 requests==2.31.0
 django-simple-captcha==0.6.0
 geopy==2.4.1
+python-dotenv==1.0.1
