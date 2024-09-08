@@ -133,21 +133,24 @@ def new_update_preview_view(request, school_id=None):
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms(school.uuid)
     print("-------------")
-    show_coming_soon=False
+    show_coming_soon = False
     print(school.top_bar_notifications)
     if bool(school.course_name):
-        show_coming_soon=True
-# Convert dictionary items to a list of tuples
-    items_list = list(school.top_bar_notifications.items())
-    last_three_items = items_list[-3:]
+        show_coming_soon = True
+    # Convert dictionary items to a list of tuples
+    print("---------top---bar----", school.top_bar_notifications, flush=True)
+    # items_list = list(school.top_bar_notifications)
+    # print("----items---list----", items_list, flush=True)
+    # last_three_items = items_list[-3:]
+    # print("----last three--- ", last_three_items, flush=True)
+    # last_three_dict = dict(last_three_items)
+    # print("----last 3 dicts ----", last_three_dict, flush=True)
+    # school.top_bar_notifications = last_three_dict
 
-    last_three_dict = dict(last_three_items)
-    school.top_bar_notifications = last_three_dict
-    
     # testimonials = json.dumps(testimonials)
-    show_testimonials=False
+    show_testimonials = False
     if testimonials.exists():
-        show_testimonials=True
+        show_testimonials = True
     # Handle datetime conversion for news events
     for news_event in news_events:
         news_event['updated_date'] = parse_datetime(news_event['updated_date'])
@@ -158,16 +161,14 @@ def new_update_preview_view(request, school_id=None):
     show_important_notices = any(
         event['posted_as'] == 'Event' for event in news_events)
     show_about_section = about_sections.exists()
-    show_news_section = any(event['posted_as'] =='News' for event in news_events)
-    show_event_section = any(event['posted_as'] =='Event' for event in news_events)
+    show_news_section = any(event['posted_as'] ==
+                            'News' for event in news_events)
+    show_event_section = any(
+        event['posted_as'] == 'Event' for event in news_events)
 
     # Assume you always want to show contact unless specified otherwise
     show_contact_section = True
-    
-    
-    
-    
-    
+
     # The context dictionary contains all the variables to be passed to the template
     context = {
         'school': school,
@@ -183,19 +184,18 @@ def new_update_preview_view(request, school_id=None):
         'show_important_notices': show_important_notices,
         'show_about_section': show_about_section,
         'show_news_section': show_news_section,
-        'show_event_section':show_event_section,
+        'show_event_section': show_event_section,
         'show_contact_section': show_contact_section,
-        'show_testimonials':show_testimonials,
-        'show_coming_soon':show_coming_soon
+        'show_testimonials': show_testimonials,
+        'show_coming_soon': show_coming_soon
     }
-    
 
     if school.premium:
-    # The render function combines the template with the context and returns an HttpResponse object
+        # The render function combines the template with the context and returns an HttpResponse object
         return render(request, 'blocks_premium.html', context)
     else:
         return render(request, 'blocks.html', context)
-        
+
 
 # def new_update_preview_view(request, school_id):
 #     # Fetch the school instance by ID or return a 404 error if not found
@@ -298,8 +298,8 @@ def receive_webhook(request):
                 }
             )
             if len(school.top_bar_notifications) == 0 and data.get('topbar'):
-                school.top_bar_notifications.append(data.get('topbar'))
-
+                # Add a new key-value pair to the dictionary
+                school.top_bar_notifications.update(data.get('topbar'))
         if logo_file:
             print("Received file with name:", logo_file.name)
             school.logo.save(logo_file.name, logo_file, save=True)

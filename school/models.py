@@ -18,7 +18,8 @@ from .models_utils import (default_json_data_links,
 class School(models.Model):
     name = models.CharField(max_length=100, unique=True)
     domain = models.CharField(max_length=100, unique=True)
-    uuid = models.CharField(max_length=6, default=uuid.uuid4().hex[:6].lower())
+    uuid = models.CharField(max_length=6, unique=True,
+                            editable=False)  # No default here
     address = models.CharField(max_length=255)
     primary_color = ColorField(max_length=10, default='#0000FF')
     secondary_color = ColorField(max_length=10, default='#808080')
@@ -26,37 +27,43 @@ class School(models.Model):
     phone_no = models.CharField(max_length=15, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     logo = models.ImageField(upload_to='logos/', default='sample_logo.png')
-    banner_video = models.FileField(upload_to='banner_videos/', blank=True, null=True, help_text="Upload a promotional video for the school.") 
-    info= models.TextField(blank=True)
-    video = models.FileField(upload_to='videos/', blank=True, null=True, help_text="Upload a promotional video for the school.") 
-    video_url = models.URLField(blank=True,null=True,help_text="Or provide a URL to a promotional video for the school.",validators=[URLValidator()])
-    video_thumbnail = models.ImageField(upload_to='video_thumbnail/', default='sample_logo.png',  blank=True, null=True )
-    top_bar_notifications = JSONField(encoder=DjangoJSONEncoder, default=list, blank=True, help_text=_(
-        "List of notifications for the top bar"))
+    info = models.TextField(blank=True)
+    video = models.FileField(upload_to='videos/', default='course-video.mp4', blank=True, null=True,
+                             help_text="Upload a promotional video for the school.")
+    video_url = models.URLField(
+        blank=True, null=True, help_text="Or provide a URL to a promotional video for the school.", validators=[URLValidator()])
+    video_thumbnail = models.ImageField(
+        upload_to='video_thumbnail/', default='sample_logo.png',  blank=True, null=True)
+    top_bar_notifications = JSONField(
+        encoder=DjangoJSONEncoder,
+        default=dict,  # Change from list to dict
+        blank=True,
+        help_text=_("Dictionary of notifications for the top bar")
+    )
 
-    
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    course_name = models.CharField(max_length=255,null=True, blank=True)
-    course_registration_end_date  = models.DateField(null=True, blank=True)
-    
+    course_name = models.CharField(max_length=255, null=True, blank=True)
+    course_registration_end_date = models.DateField(null=True, blank=True)
+
     def clean(self):
-        # Ensure that either video_file or video_url is provided, but not both
-        if not self.video and not self.video_url:
-            raise ValidationError('At least one of video_file or video_url must be provided.')
-        if self.video and self.video_url:
-            raise ValidationError('You cannot provide both video_file and video_url. Choose one.')
-
+        # Ensure that both course_name and course_registration_end_date are either provided together or left blank together
         if bool(self.course_name) != bool(self.course_registration_end_date):
-            raise ValidationError('Both course_name and date must be provided together or left blank together.')
+            raise ValidationError(
+                'Both course name and course registration end date must be provided together, or both should be left blank.'
+            )
 
+        # Ensure course_registration_end_date is greater than today, if provided
         if self.course_registration_end_date and self.course_registration_end_date <= timezone.now().date():
-            raise ValidationError('The date must be greater than today.')
-        
+            raise ValidationError(
+                'The course registration end date must be a future date.')
+
     def save(self, *args, **kwargs):
         if not self.pk:  # Check if this is an existing instance
+            if not self.uuid:
+                self.uuid = uuid.uuid4().hex[:6].lower()
             super(School, self).save(*args, **kwargs)
-            
+
             menu_items = [
                 ("Home", "-"),
                 ("About Us", "-"),
@@ -65,7 +72,7 @@ class School(models.Model):
                 ("Events", "-"),
                 ("Contact Us", "-"),
             ]
-            
+
             for name, link in menu_items:
                 NavigationMenu.objects.get_or_create(
                     school=self,
@@ -73,12 +80,9 @@ class School(models.Model):
                     link=link
                 )
         else:
-            
-            super(School, self).save(*args, **kwargs)
-            
 
-    
-                
+            super(School, self).save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.name}_{self.domain}_{self.uuid}'
 
@@ -108,6 +112,8 @@ class Banner(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     image = models.ImageField(
         upload_to='banners/', default='sample_banner.jpeg')
+    banner_video = models.FileField(upload_to='banner_videos/', blank=True,
+                                    null=True, default='course-video.mp4', help_text="Upload a promotional video for the school.")
     headline = models.CharField(
         max_length=200, default="Welcome To ABC School")
     subtext = models.TextField(

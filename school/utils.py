@@ -21,18 +21,21 @@ def fetch_news_and_events_from_lms(organization_id):
 
 
 def update_lat_lon(modeladmin, request, queryset):
-    geolocator = Nominatim(user_agent="school")  # Replace 'school' with your app's name
+    # Replace 'school' with your app's name
+    geolocator = Nominatim(user_agent="school")
 
     for organization in queryset:
         if organization.address:
+            print("----org address---", organization.address, flush=True)
             location = geolocator.geocode(organization.address)
+            print("-----whats here----", location, flush=True)
             if location:
                 organization.latitude = location.latitude
                 organization.longitude = location.longitude
                 organization.save()
 
-    modeladmin.message_user(request, "Latitude and Longitude updated successfully.")
+    modeladmin.message_user(
+        request, "Latitude and Longitude updated successfully.")
+
 
 update_lat_lon.short_description = "Update latitude and longitude from address"
-
-             
