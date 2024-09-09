@@ -19,7 +19,7 @@ class School(models.Model):
     name = models.CharField(max_length=100, unique=True)
     domain = models.CharField(max_length=100, unique=True)
     uuid = models.CharField(max_length=6, unique=True,
-                            editable=False)  # No default here
+                            editable=False)  # No default here 
     address = models.CharField(max_length=255)
     primary_color = ColorField(max_length=10, default='#0000FF')
     secondary_color = ColorField(max_length=10, default='#808080')
@@ -28,12 +28,12 @@ class School(models.Model):
     email = models.CharField(max_length=255, blank=True, null=True)
     logo = models.ImageField(upload_to='logos/', default='sample_logo.png')
     info = models.TextField(blank=True)
-    video = models.FileField(upload_to='videos/', default='course-video.mp4', blank=True, null=True,
+    video = models.FileField(upload_to='videos/', blank=True, null=True,
                              help_text="Upload a promotional video for the school.")
     video_url = models.URLField(
-        blank=True, null=True, help_text="Or provide a URL to a promotional video for the school.", validators=[URLValidator()])
+        blank=True, default="https://youtu.be/szjVXpnabmI", null=True, help_text="Or provide a URL to a promotional video for the school.", validators=[URLValidator()])
     video_thumbnail = models.ImageField(
-        upload_to='video_thumbnail/', default='sample_logo.png',  blank=True, null=True)
+        upload_to='video_thumbnail/', default='main-thumb.png',  blank=True, null=True)
     top_bar_notifications = JSONField(
         encoder=DjangoJSONEncoder,
         default=dict,  # Change from list to dict
@@ -43,23 +43,23 @@ class School(models.Model):
 
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    course_name = models.CharField(max_length=255, null=True, blank=True)
-    course_registration_end_date = models.DateField(null=True, blank=True)
+    upcoming_registration = models.CharField(max_length=255, null=True, blank=True)
+    upcoming_registration_end_date = models.DateField(null=True, blank=True)
 
     def clean(self):
         # Ensure that both course_name and course_registration_end_date are either provided together or left blank together
-        if bool(self.course_name) != bool(self.course_registration_end_date):
+        if bool(self.upcoming_registration) != bool(self.upcoming_registration_end_date):
             raise ValidationError(
                 'Both course name and course registration end date must be provided together, or both should be left blank.'
             )
 
         # Ensure course_registration_end_date is greater than today, if provided
-        if self.course_registration_end_date and self.course_registration_end_date <= timezone.now().date():
+        if self.upcoming_registration_end_date and self.upcoming_registration_end_date <= timezone.now().date():
             raise ValidationError(
                 'The course registration end date must be a future date.')
 
     def save(self, *args, **kwargs):
-        if not self.pk:  # Check if this is an existing instance
+        if not self.pk:  # Check if this is not an existing instance
             if not self.uuid:
                 self.uuid = uuid.uuid4().hex[:6].lower()
             super(School, self).save(*args, **kwargs)
@@ -79,6 +79,10 @@ class School(models.Model):
                     name=name,
                     link=link
                 )
+                
+            Banner.objects.create(
+                school=self
+            )
         else:
 
             super(School, self).save(*args, **kwargs)

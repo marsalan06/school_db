@@ -127,15 +127,15 @@ def new_update_preview_view(request, school_id=None):
     navigation = NavigationMenu.objects.filter(school=school)
     navigation_list = list(NavigationMenu.objects.filter(
         school=school).values_list('name', flat=True))
-    banner = Banner.objects.filter(school=school).first()
-    about_sections = AboutSection.objects.filter(school=school)[:3]
+    banner = Banner.objects.filter(school=school).last()
+    about_sections = AboutSection.objects.filter(school=school).order_by('-id')[:3]
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms(school.uuid)
     print("-------------")
     show_coming_soon = False
     print(school.top_bar_notifications)
-    if bool(school.course_name):
+    if bool(school.upcoming_registration):
         show_coming_soon = True
     # Convert dictionary items to a list of tuples
     print("---------top---bar----", school.top_bar_notifications, flush=True)

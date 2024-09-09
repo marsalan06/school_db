@@ -5,7 +5,7 @@ from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
 
 from django.shortcuts import render,redirect
 from django.shortcuts import get_object_or_404
-from .utils import update_lat_lon
+from .utils import update_lat_lon, populate_testimonials, populate_about_sections
 # Register your models here.
 
 
@@ -51,8 +51,7 @@ class SchoolAdmin(admin.ModelAdmin):
         TestimonialInline,
         FooterContentInline,
     ]
-    actions=[update_lat_lon]
-  
+    actions=[update_lat_lon, populate_testimonials, populate_about_sections]
 # Register the School admin
 admin.site.register(School, SchoolAdmin)
 admin.site.register(ContactFormEntry)

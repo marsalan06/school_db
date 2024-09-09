@@ -13,7 +13,7 @@
 
 
 {% if show_about_section %}
-{% include "segments_premium/why_us.html" %}
+{% include "segments_premium/about_us.html" %}
 {% endif %}
 
 
@@ -22,9 +22,6 @@
 {% endif %}
 
 
-{% if show_event_section and 'Events' in nav_list %}
-{% include "segments_premium/events.html" %}
-{% endif %}
 
 {% if show_testimonials and 'Testimonials' in nav_list %}
 {% include "segments_premium/testimonials.html" %}
@@ -37,7 +34,10 @@
 {% include "segments_premium/news_section.html" %}
 {% endif %}
 
+{% if show_event_section and 'Events' in nav_list %}
+{% include "segments_premium/events.html" %}
+{% endif %}
 
 {% include "segments_premium/contact_us.html" %}
 
-{% endblock content %}
+{% endblock content %}`

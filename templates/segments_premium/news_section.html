@@ -10,8 +10,7 @@
                 {% if news_event.posted_as == 'News'  %}
                     <div class="news-body" data-title="{{ news_event.title }}" data-link="{{ news_event.link }}" data-image="{% static news_event.image_url %}" data-summary="{{ news_event.summary }}" data-date="{{ news_event.updated_date|date:"M d, Y" }}">
                         {% if news_event.image_url %}
-                        {% static news_event.image_url %}
-                            <img src="{% static school.video_thumbnail %}" alt="{{ news_event.title }}">
+                            <img src="{% static 'news1.jpg' %}" alt="{{ news_event.title }}">
                         {% else %}
                             <img src="{% static 'news1.jpg' %}" alt="Default News Image">
                         {% endif %}

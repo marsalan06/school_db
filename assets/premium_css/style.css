@@ -447,9 +447,9 @@ a.menu-link {
     font-weight: 600;
   }
 }
-
+ 
 /* Why Choosing Us */
-.why-us {
+.about-us {
   /* background-image: url(../images/choosing-bg.jpg); */
   background-color: var(--secondary-color);
   background-repeat: no-repeat;
@@ -769,9 +769,9 @@ a.menu-link {
   display: inline-block;
 }
 .events .item .down-content .text-button-pay {
-  float: right;
-  display: inline-block;
-  margin-top: -45px;
+  /* float: right; */
+  /* display: inline-block; */
+  margin-top: -25px;
 }
 .events .item .down-content .text-button-pay p {
   color: var(--primary-color);

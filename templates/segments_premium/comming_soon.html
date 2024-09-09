@@ -7,7 +7,7 @@
     <div class="col-md-7 col-xs-12">
       <div class="continer centerIt">
         <div>
-          <h4>Deadline for <em>{{school.course_name}}</em>, an exclusive course</h4>
+          <h4>Deadline for <em>{{school.upcoming_registration}}</em>, an exclusive course</h4>
           <div class="counter">
 
             <div class="days">
@@ -37,7 +37,7 @@
     <div class="col-md-5">
       <div class="right-content">
         <div class="top-content">
-          <h6>Register for <em>{{school.course_name}}</em> and gain advancement in life</h6>
+          <h6>Register for <em>{{school.upcoming_registration}}</em> and gain advancement in life</h6>
         </div>
         <form id="contact" action="" method="get">
           <div class="row">
@@ -70,5 +70,5 @@
 </section>
 
 <script>
-  var endDate = "{{ school.course_registration_end_date }}";
+  var endDate = "{{ school.upcoming_registration_end_date }}";
 </script>
