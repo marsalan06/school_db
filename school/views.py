@@ -128,7 +128,8 @@ def new_update_preview_view(request, school_id=None):
     navigation_list = list(NavigationMenu.objects.filter(
         school=school).values_list('name', flat=True))
     banner = Banner.objects.filter(school=school).last()
-    about_sections = AboutSection.objects.filter(school=school).order_by('-id')[:3]
+    about_sections = AboutSection.objects.filter(
+        school=school).order_by('id')[:3]
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms(school.uuid)
@@ -187,7 +188,9 @@ def new_update_preview_view(request, school_id=None):
         'show_event_section': show_event_section,
         'show_contact_section': show_contact_section,
         'show_testimonials': show_testimonials,
-        'show_coming_soon': show_coming_soon
+        'show_coming_soon': show_coming_soon,
+        'GOOGLE_MAPS_MAP_ID': settings.GOOGLE_MAPS_MAP_ID,
+        'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY,
     }
 
     if school.premium:

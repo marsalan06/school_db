@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-nlkh$7bp%&*28oq9!l&&4udd-dg+ix-p%7=@0ew-2j119uem6h
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
- 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 allowed_hosts_file = os.path.join(BASE_DIR, 'allowed_hosts.json')
 
@@ -83,7 +83,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'schooltech.context_processors.google_maps_context',
             ],
         },
     },
@@ -109,6 +108,24 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s "
+            "%(process)d %(thread)d %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        }
+    },
+    "root": {"level": "INFO", "handlers": ["console"]},
+}
 
 # if DEBUG:
 #     DATABASES = {
@@ -183,3 +200,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LMS_SERVER_URL = config('LMS_SERVER_URL')
 LMS_EXTERNAL_URL = config('LMS_EXTERNAL_URL')
+GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
+GOOGLE_MAPS_MAP_ID = config('GOOGLE_MAPS_MAP_ID')
