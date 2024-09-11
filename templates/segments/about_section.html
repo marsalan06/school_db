@@ -1,5 +1,9 @@
 {% load static %}
-<div class="abt-sec" id="about">
+<div id="about us">
+<link rel="stylesheet" href="{% static 'css/about_us.css' %}">
+<h2 class="sub-title">About Us</h2>
+<div class="abt-sec">
+    {% for about_section in about_sections%}
     <div class="leftpan">
         <h3>{{ about_section.title }}</h3>
         <p>{{ about_section.content }}</p>
@@ -11,4 +15,6 @@
         <img src="{% static 'abt-img.jpg' %}" alt="Default About Image">
         {% endif %}
     </div>
+    {% endfor %}
+</div>
 </div>

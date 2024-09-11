@@ -12,6 +12,14 @@ from faker import Faker
 logger = logging.getLogger(__name__)
 
 
+PROTECTED_FILES = [
+    'about-section-sample.png',
+    'course-video.mp4',
+    'sample_banner.jpeg',
+    'sample_logo.png',
+    'sample-news.png'
+]
+
 fake = Faker()
 
 

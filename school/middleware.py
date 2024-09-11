@@ -35,7 +35,7 @@ class HostRestrictMiddleware:
     def __call__(self, request):
         try:
             host = request.META.get('HTTP_HOST')
-            print(f"Request host: {host}")  # Debugging line
+            print(f"Request host: {host}", flush=True)  # Debugging line
             if host:
                 host = host.split(':')[0]  # Get the host without the port
             else:

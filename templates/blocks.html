@@ -9,7 +9,7 @@
         {% include "segments/important_notice.html" %}
     {% endif %}
 
-    {% if show_about_section and 'About' in nav_list %}
+    {% if show_about_section and 'About Us' in nav_list %}
         {% include "segments/about_section.html" %}
     {% endif %}
 
@@ -17,7 +17,7 @@
         {% include "segments/news_section.html" %}
     {% endif %}
 
-    {% if show_contact_section and 'Contact' in nav_list %}
+    {% if show_contact_section and 'Contact Us' in nav_list %}
         {% include "segments/contact_section.html" %}
     {% endif %}
 {% endblock content %}

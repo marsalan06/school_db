@@ -41,13 +41,12 @@
         {% endif %}
         <div class="text-overlay">
             <h2><em>{{ school.name }}</em></h2>
-          </div>    
-    </div>
-    <div class="text-content">
-        <h1>{{ banner.headline }}</h1>
-        <p>{{ banner.subtext }}</p>
-        {% if banner.cta_link %}
-        <a href="{{ banner.cta_link }}" class="btn btn-primary">{{ banner.cta_text }}</a>
-        {% endif %}
+            <h2>{{ banner.headline }}</h2>
+            <p>{{ banner.subtext }}</p>
+            {% if banner.cta_link %}
+            <a href="{{ banner.cta_link }}" class="btn btn-primary">{{ banner.cta_text }}</a>
+            {% endif %}
+          </div>   
+            
     </div>
 </section>

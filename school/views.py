@@ -16,7 +16,7 @@ from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
                     NewsForm, SchoolForm, TestimonialForm, ContactForm)
 from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
                      NewsArticle, School, Testimonial, ContactFormEntry)
-from .utils import fetch_news_and_events_from_lms
+from .utils import fetch_news_and_events_from_lms, PROTECTED_FILES
 
 # Create your views here.
 
@@ -287,26 +287,53 @@ def receive_webhook(request):
         # Process the received data and file here
         print("Received data:", data)
         if data:
-            school, created = School.objects.update_or_create(
-                # Assuming 'id' in the data corresponds to 'uuid' in the School model
-                uuid=data['id'],
-                defaults={
-                    'name': data['name'],
-                    'domain': data['domain'],
-                    'address': data['address'],
-                    'phone_no': data.get('phone_no', ''),
-                    'email': data.get('email', ''),
-                    # Ensuring it's a list
-                    # 'top_bar_notifications': data.get('topbar', '')
-                }
-            )
-            if len(school.top_bar_notifications) == 0 and data.get('topbar'):
-                # Add a new key-value pair to the dictionary
-                school.top_bar_notifications.update(data.get('topbar'))
+            # Check if a school with the given UUID exists
+            existing_school = School.objects.filter(uuid=data['id']).first()
+            if not existing_school:
+                # If no such school exists, create a new one
+                school = School.objects.create(
+                    uuid=data['id'],
+                    name=data['name'],
+                    domain=data['domain'],
+                    address=data['address'],
+                    phone_no=data.get('phone_no', ''),
+                    email=data.get('email', ''),
+                )
+                print(f'New school created: {school}')
+            else:
+                # If the school exists, update the existing one
+                existing_school.name = data['name']
+                existing_school.domain = data['domain']
+                existing_school.address = data['address']
+                existing_school.phone_no = data.get(
+                    'phone_no', existing_school.phone_no)
+                existing_school.email = data.get(
+                    'email', existing_school.email)
+
+                if len(existing_school.top_bar_notifications) == 0 and data.get('topbar'):
+                    # Add new key-value pairs to the top_bar_notifications field
+                    existing_school.top_bar_notifications.update(
+                        data.get('topbar'))
+
+                existing_school.save()
+                school = existing_school
+                print(f'School Updated: {school}')
+
         if logo_file:
+            print("-=====logo---file----", flush=True)
+            # Delete the existing logo file if it exists
+            if school.logo and school.logo.name and school.logo.name not in PROTECTED_FILES:
+                # Delete the file without saving the model
+                print("-=====school---loggo to delete----",
+                      school.logo.name, flush=True)
+                school.logo.delete(save=False)
+                print("Deleted existing logo file")
+
+            # Save the new logo file
             print("Received file with name:", logo_file.name)
             school.logo.save(logo_file.name, logo_file, save=True)
-            print(f'School Updated or Created: {school}')
+            print(f'New logo uploaded for school: {school}')
+
         return JsonResponse({"status": "success", "message": "Webhook received"})
     else:
         return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
