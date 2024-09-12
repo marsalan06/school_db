@@ -181,21 +181,45 @@ AWS_DEFAULT_ACL = None  # Disable default ACL to prevent "Permission Denied" err
 
 REMOTE_SERVER = config('REMOTE_SERVER', default=False, cast=bool)
 
+# Common settings for both development and production
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Directory for static files (CSS, JS, images)
+# Only static files, no media
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
+
 if REMOTE_SERVER:
+    # Production (S3)
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
+
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+
+    # Use S3 for static and media files
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/'
-    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
-else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
-    STATIC_URL = 'static/'
-    STATICFILES_DIRS = [os.path.join(
-        BASE_DIR, 'assets'), os.path.join(BASE_DIR, 'media')]
 
+    # Static files will be stored in the 'static-assets/' folder within your S3 bucket
+    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static-assets/'
+
+    # Media files will be stored in the 'media-files/' folder within your S3 bucket
+    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media-files/'
+
+else:
+    # Development (local storage)
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+
+    # Directory where Django will collect static files in development
+    # Where collected static files go
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
+    # Directory for uploaded media files in development
+    # Where media files are uploaded locally
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
