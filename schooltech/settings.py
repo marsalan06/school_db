@@ -198,10 +198,11 @@ if REMOTE_SERVER:
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
 
-    # Use S3 for static and media files
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
+    # # Use S3 for static and media files
+    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATICFILES_STORAGE = 'schooltech.boto_conf.StaticStorage'
+    DEFAULT_FILE_STORAGE = 'schooltech.boto_conf.MediaStorage'
     # Static files will be stored in the 'static-assets/' folder within your S3 bucket
     STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static-assets/'
 
