@@ -3,59 +3,71 @@
     <div class="top-bar"></div>
     <div class="main-links d-flex">
         <div class="column-1">
-            <img alt="Footer Logo" src="{{ school.logo.url }}">
+            <img src="{{ school.logo.url|default:'{% static "sample_logo.png" %}' }}" 
+            alt='Header logo'
+            onerror="this.onerror=null;this.src='{% static "sample_logo.png" %}';">       
         </div>
+        <!-- Column 2: Academic Programs (Dynamically pulled from links JSON) -->
         <div class="column column-2">
             <h3>Academic Programs</h3>
             <ul>
-                <li><a href="/">Undergraduate Programs</a></li>
-                <li><a href="/">Graduate School</a></li>
+                {% for program in footer_content.links.programs %}
+                <li><a href="{{ program.url }}">{{ program.name }}</a></li>
+                {% endfor %}
             </ul>
         </div>
+
+        <!-- Column 3: Quick Links (Dynamically pulled from links JSON) -->
         <div class="column column-3">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="#">Admission Requirements</a></li>
-                <li><a href="/">Tuition Fees</a></li>
-                <li><a href="/">Scholarships and Financial Aid</a></li>
+                {% for quick_link in footer_content.links.quick_links %}
+                <li><a href="{{ quick_link.url }}">{{ quick_link.name }}</a></li>
+                {% endfor %}
             </ul>
         </div>
+
+         <!-- Column 4: Downloads (Dynamically pulled from links JSON) -->
         <div class="column column-4">
             <h3>Downloads</h3>
             <ul>
-                <li><a href="/">School Prospectus</a></li>
-                <li><a href="/">Annual Report 2024</a></li>
+                {% for download in footer_content.links.downloads %}
+                <li><a href="{{ download.url }}">{{ download.name }}</a></li>
+                {% endfor %}
             </ul>
         </div>
+
+        <!-- Column 5: Get in Touch (Dynamically pulled from links JSON) -->
         <div class="column column-5">
             <div>
                 <h3>Get in Touch</h3>
                 <ul>
-                    <li><a href="/">Contact Us</a></li>
-                    <li><a href="/">Maps & Directions</a></li>
-                    <li><a href="/">Jobs</a></li>
+                    {% for contact in footer_content.links.contact %}
+                    <li><a href="{{ contact.url }}">{{ contact.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
+
         <div class="column column-6">
             <div>
                 <h3>Connect with us</h3>
                 <ul class="d-flex">
+                    {% for social in footer_content.social_media %}
                     <li>
-                        <a href="/">
-                            <img src="{% static 'insta.svg' %}">
+                        <a href="{{ social.url }}">
+                            <img src="{{ social.icon_url }}">
                         </a>
                     </li>
-                    <li>
-                        <a href="/">
-                            <img src="{% static 'facebook.svg' %}">
-                        </a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
+
     </div>
+    <!-- Footer About Text and Copyright -->
     <div class="copyright">
+        <p>{{ footer_content.about_text }}</p>
         <p>Copyright (c) 2024 {{ school.name }}</p>
     </div>
 </footer>

@@ -1,8 +1,10 @@
 {% load static %}
 <header class="main-header clearfix" role="header">
   <div class="logo">
-    <a class="site-logo" href="./">
-      <img src="{{ school.logo.url }}" alt="Header logo" />
+    <a class='site-logo' href='./'>
+      <img src="{{ school.logo.url|default:'{% static "sample_logo.png" %}' }}" 
+           alt='Header logo'
+           onerror="this.onerror=null;this.src='{% static "sample_logo.png" %}';">
     </a>
   </div>
 

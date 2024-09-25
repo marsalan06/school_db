@@ -2,60 +2,106 @@
 <footer>
     <div class="top-bar"></div>
     <div class="main-links d-flex">
+        <!-- Column 1: School Logo -->
         <div class="column-1">
-            <img alt="Footer Logo" src="{{ school.logo.url }}">
+            <img src="{{ school.logo.url|default:'{% static "sample_logo.png" %}' }}" 
+            alt='Header logo'
+            onerror="this.onerror=null;this.src='{% static "sample_logo.png" %}';">
         </div>
+
+        <!-- Column 2: Academic Programs (Mix of static and dynamic) -->
         <div class="column column-2">
             <h3>Academic Programs</h3>
             <ul>
-                <li><a href="/">Undergraduate Programs</a></li>
-                <li><a href="/">Graduate School</a></li>
+                {% if footer_content.links.programs %}
+                    {% for program in footer_content.links.programs %}
+                        <li><a href="{{ program.url|add:'/' }}" target="_blank">{{ program.name }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li><a href="/" target="_blank">Undergraduate Programs</a></li>
+                    <li><a href="/" target="_blank">Graduate School</a></li>
+                {% endif %}
             </ul>
         </div>
+
+        <!-- Column 3: Quick Links (Mix of static and dynamic) -->
         <div class="column column-3">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="#">Admission Requirements</a></li>
-                <li><a href="/">Tuition Fees</a></li>
-                <li><a href="/">Scholarships and Financial Aid</a></li>
+                {% if footer_content.links.quick_links %}
+                    {% for quick_link in footer_content.links.quick_links %}
+                        <li><a href="{{ quick_link.url|add:'/' }}" target="_blank">{{ quick_link.name }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li><a href="#" target="_blank">Admission Requirements</a></li>
+                    <li><a href="/" target="_blank">Tuition Fees</a></li>
+                    <li><a href="/" target="_blank">Scholarships and Financial Aid</a></li>
+                {% endif %}
             </ul>
         </div>
+
+        <!-- Column 4: Downloads (Mix of static and dynamic) -->
         <div class="column column-4">
             <h3>Downloads</h3>
             <ul>
-                <li><a href="/">School Prospectus</a></li>
-                <li><a href="/">Annual Report 2024</a></li>
+                {% if footer_content.links.downloads %}
+                    {% for download in footer_content.links.downloads %}
+                        <li><a href="{{ download.url|add:'/' }}" target="_blank">{{ download.name }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li><a href="/" target="_blank">School Prospectus</a></li>
+                    <li><a href="/" target="_blank">Annual Report 2024</a></li>
+                {% endif %}
             </ul>
         </div>
+
+        <!-- Column 5: Get in Touch (Mix of static and dynamic) -->
         <div class="column column-5">
-            <div>
-                <h3>Get in Touch</h3>
-                <ul>
-                    <li><a href="/">Contact Us</a></li>
-                    <li><a href="/">Maps & Directions</a></li>
-                    <li><a href="/">Jobs</a></li>
-                </ul>
-            </div>
+            <h3>Get in Touch</h3>
+            <ul>
+                {% if footer_content.links.contact %}
+                    {% for contact in footer_content.links.contact %}
+                        <li><a href="{{ contact.url|add:'/' }}" target="_blank">{{ contact.name }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li><a href="/" target="_blank">Contact Us</a></li>
+                    <li><a href="/" target="_blank">Maps & Directions</a></li>
+                    <li><a href="/" target="_blank">Jobs</a></li>
+                {% endif %}
+            </ul>
         </div>
+
+        <!-- Column 6: Connect with Us (Mix of static and dynamic) -->
         <div class="column column-6">
-            <div>
-                <h3>Connect with us</h3>
-                <ul class="d-flex">
+            <h3>Connect with us</h3>
+            <ul class="d-flex">
+                {% if footer_content.social_media %}
+                    {% for social in footer_content.social_media %}
+                        <li>
+                            <a href="{{ social.url|add:'/' }}" target="_blank">
+                                <img src="{{ social.icon_url }}">
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% else %}
                     <li>
-                        <a href="/">
+                        <a href="/" target="_blank">
                             <img src="{% static 'insta.svg' %}">
                         </a>
                     </li>
                     <li>
-                        <a href="/">
+                        <a href="/" target="_blank">
                             <img src="{% static 'facebook.svg' %}">
                         </a>
                     </li>
-                </ul>
-            </div>
+                {% endif %}
+            </ul>
         </div>
     </div>
+
+    <!-- Footer About Text and Copyright -->
     <div class="copyright">
+        <p>{{ footer_content.about_text|default:"" }}</p>
         <p>Copyright (c) 2024 {{ school.name }}</p>
     </div>
 </footer>

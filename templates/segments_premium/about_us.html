@@ -20,7 +20,13 @@
                             <article id='tabs-{{ forloop.counter }}'>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <img src="{{ tab.image.url }}" alt="{{ tab.title }}">
+                                        {% if tab.image.url %}
+                                            <img src="{{ tab.image.url }}" 
+                                                 alt="{{ tab.title }}" 
+                                                 onerror="this.onerror=null;this.src='{% static 'about-section-sample.png' %}';">
+                                        {% else %}
+                                            <img src="{% static 'about-section-sample.png' %}" alt="{{ tab.title }}">
+                                        {% endif %}
                                     </div>
                                     <div class="col-md-6">
                                         <h4>{{ tab.title }}</h4>

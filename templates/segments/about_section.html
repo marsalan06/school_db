@@ -10,9 +10,11 @@
     </div>
     <div class="rightpan">
         {% if about_section.image.url %}
-        <img src="{{ about_section.image.url }}" alt="About Section Image">
+        <img src="{{ about_section.image.url }}" 
+         alt="About Section Image" 
+         onerror="this.onerror=null;this.src='{% static 'about-section-sample.png' %}';">
         {% else %}
-        <img src="{% static 'abt-img.jpg' %}" alt="Default About Image">
+        <img src="{% static 'about-section-sample.png' %}" alt="Default About Image">
         {% endif %}
     </div>
     {% endfor %}

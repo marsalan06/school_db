@@ -309,7 +309,7 @@ def receive_webhook(request):
                     'phone_no', existing_school.phone_no)
                 existing_school.email = data.get(
                     'email', existing_school.email)
-
+                print("-----data----topbar---", data.get('topbar'), flush=True)
                 if len(existing_school.top_bar_notifications) == 0 and data.get('topbar'):
                     # Add new key-value pairs to the top_bar_notifications field
                     existing_school.top_bar_notifications.update(

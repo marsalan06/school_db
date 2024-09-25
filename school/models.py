@@ -19,7 +19,7 @@ class School(models.Model):
     name = models.CharField(max_length=100, unique=True)
     domain = models.CharField(max_length=100, unique=True)
     uuid = models.CharField(max_length=6, unique=True,
-                            editable=False)  # No default here 
+                            editable=False)  # No default here
     address = models.CharField(max_length=255)
     primary_color = ColorField(max_length=10, default='#0000FF')
     secondary_color = ColorField(max_length=10, default='#808080')
@@ -43,7 +43,8 @@ class School(models.Model):
 
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    upcoming_registration = models.CharField(max_length=255, null=True, blank=True)
+    upcoming_registration = models.CharField(
+        max_length=255, null=True, blank=True)
     upcoming_registration_end_date = models.DateField(null=True, blank=True)
 
     def clean(self):
@@ -79,9 +80,20 @@ class School(models.Model):
                     name=name,
                     link=link
                 )
-                
+
             Banner.objects.create(
                 school=self
+            )
+
+            # Create default FooterContent for the school
+            FooterContent.objects.get_or_create(
+                school=self,
+                defaults={
+                    "about_text": "Powered By Learn0Leap",
+                    "links": default_json_data_links(),  # Use the default links structure
+                    # Use the default social media structure
+                    "social_media": default_json_data_social_media()
+                }
             )
         else:
 
@@ -154,5 +166,15 @@ class Testimonial(models.Model):
 class FooterContent(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     about_text = models.TextField(default="Short text about the school.")
-    links = models.JSONField(default=default_json_data_links)
-    social_media = models.JSONField(default=default_json_data_social_media)
+    links = models.JSONField()  # Removed default value
+    social_media = models.JSONField()  # Removed default value
+
+    def save(self, *args, **kwargs):
+        # If links or social_media are empty, set them to the default values
+        if not self.links:
+            self.links = default_json_data_links()
+        if not self.social_media:
+            self.social_media = default_json_data_social_media()
+
+        # Call the original save() method
+        super(FooterContent, self).save(*args, **kwargs)

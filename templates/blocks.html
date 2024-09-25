@@ -16,6 +16,10 @@
     {% if show_news_section and 'News' in nav_list %}
         {% include "segments/news_section.html" %}
     {% endif %}
+    
+    {% if show_testimonials and 'Testimonials' in nav_list %}
+        {% include "segments/testimonial.html" %}
+    {% endif %}
 
     {% if show_contact_section and 'Contact Us' in nav_list %}
         {% include "segments/contact_section.html" %}
