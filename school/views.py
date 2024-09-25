@@ -9,13 +9,14 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.dateparse import parse_datetime
 from django.utils.timezone import get_current_timezone
+from django.utils import timezone
 
 
 from .forms import (AboutForm, BannerForm, FooterForm, NavigationMenuForm,
                     NewsForm, SchoolForm, TestimonialForm, ContactForm)
 from .models import (AboutSection, Banner, FooterContent, NavigationMenu,
                      NewsArticle, School, Testimonial, ContactFormEntry)
-from .utils import fetch_news_and_events_from_lms
+from .utils import fetch_news_and_events_from_lms, PROTECTED_FILES
 
 # Create your views here.
 
@@ -126,25 +127,46 @@ def new_update_preview_view(request, school_id=None):
     navigation = NavigationMenu.objects.filter(school=school)
     navigation_list = list(NavigationMenu.objects.filter(
         school=school).values_list('name', flat=True))
-    banner = Banner.objects.filter(school=school).first()
-    about_section = AboutSection.objects.filter(school=school).first()
+    banner = Banner.objects.filter(school=school).last()
+    about_sections = AboutSection.objects.filter(
+        school=school).order_by('id')[:3]
     testimonials = Testimonial.objects.filter(school=school)
     footer_content = FooterContent.objects.filter(school=school).first()
     news_events = fetch_news_and_events_from_lms(school.uuid)
+    print("-------------")
+    show_coming_soon = False
+    print(school.top_bar_notifications)
+    if bool(school.upcoming_registration):
+        show_coming_soon = True
+    # Convert dictionary items to a list of tuples
+    print("---------top---bar----", school.top_bar_notifications, flush=True)
+    # items_list = list(school.top_bar_notifications)
+    # print("----items---list----", items_list, flush=True)
+    # last_three_items = items_list[-3:]
+    # print("----last three--- ", last_three_items, flush=True)
+    # last_three_dict = dict(last_three_items)
+    # print("----last 3 dicts ----", last_three_dict, flush=True)
+    # school.top_bar_notifications = last_three_dict
 
+    # testimonials = json.dumps(testimonials)
+    show_testimonials = False
+    if testimonials.exists():
+        show_testimonials = True
     # Handle datetime conversion for news events
     for news_event in news_events:
         news_event['updated_date'] = parse_datetime(news_event['updated_date'])
         if news_event['updated_date'] and settings.USE_TZ:
             news_event['updated_date'] = news_event['updated_date'].astimezone(
                 get_current_timezone())
-
     # Determine which sections to show
     show_important_notices = any(
         event['posted_as'] == 'Event' for event in news_events)
-    show_about_section = about_section is not None
+    show_about_section = about_sections.exists()
     show_news_section = any(event['posted_as'] ==
                             'News' for event in news_events)
+    show_event_section = any(
+        event['posted_as'] == 'Event' for event in news_events)
+
     # Assume you always want to show contact unless specified otherwise
     show_contact_section = True
 
@@ -154,7 +176,7 @@ def new_update_preview_view(request, school_id=None):
         'navigation': navigation,
         'nav_list': navigation_list,
         'banner': banner,
-        'about_section': about_section,
+        'about_sections': about_sections,
         'testimonials': testimonials,
         'footer_content': footer_content,
         'news_events': news_events,
@@ -163,11 +185,19 @@ def new_update_preview_view(request, school_id=None):
         'show_important_notices': show_important_notices,
         'show_about_section': show_about_section,
         'show_news_section': show_news_section,
+        'show_event_section': show_event_section,
         'show_contact_section': show_contact_section,
+        'show_testimonials': show_testimonials,
+        'show_coming_soon': show_coming_soon,
+        'GOOGLE_MAPS_MAP_ID': settings.GOOGLE_MAPS_MAP_ID,
+        'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY,
     }
 
-    # The render function combines the template with the context and returns an HttpResponse object
-    return render(request, 'blocks.html', context)
+    if school.premium:
+        # The render function combines the template with the context and returns an HttpResponse object
+        return render(request, 'blocks_premium.html', context)
+    else:
+        return render(request, 'blocks.html', context)
 
 
 # def new_update_preview_view(request, school_id):
@@ -257,26 +287,53 @@ def receive_webhook(request):
         # Process the received data and file here
         print("Received data:", data)
         if data:
-            school, created = School.objects.update_or_create(
-                # Assuming 'id' in the data corresponds to 'uuid' in the School model
-                uuid=data['id'],
-                defaults={
-                    'name': data['name'],
-                    'domain': data['domain'],
-                    'address': data['address'],
-                    'phone_no': data.get('phone_no', ''),
-                    'email': data.get('email', ''),
-                    # Ensuring it's a list
-                    # 'top_bar_notifications': data.get('topbar', '')
-                }
-            )
-            if len(school.top_bar_notifications) == 0 and data.get('topbar'):
-                school.top_bar_notifications.append(data.get('topbar'))
+            # Check if a school with the given UUID exists
+            existing_school = School.objects.filter(uuid=data['id']).first()
+            if not existing_school:
+                # If no such school exists, create a new one
+                school = School.objects.create(
+                    uuid=data['id'],
+                    name=data['name'],
+                    domain=data['domain'],
+                    address=data['address'],
+                    phone_no=data.get('phone_no', ''),
+                    email=data.get('email', ''),
+                )
+                print(f'New school created: {school}')
+            else:
+                # If the school exists, update the existing one
+                existing_school.name = data['name']
+                existing_school.domain = data['domain']
+                existing_school.address = data['address']
+                existing_school.phone_no = data.get(
+                    'phone_no', existing_school.phone_no)
+                existing_school.email = data.get(
+                    'email', existing_school.email)
+                print("-----data----topbar---", data.get('topbar'), flush=True)
+                if len(existing_school.top_bar_notifications) == 0 and data.get('topbar'):
+                    # Add new key-value pairs to the top_bar_notifications field
+                    existing_school.top_bar_notifications.update(
+                        data.get('topbar'))
+
+                existing_school.save()
+                school = existing_school
+                print(f'School Updated: {school}')
 
         if logo_file:
+            print("-=====logo---file----", flush=True)
+            # Delete the existing logo file if it exists
+            if school.logo and school.logo.name and school.logo.name not in PROTECTED_FILES:
+                # Delete the file without saving the model
+                print("-=====school---loggo to delete----",
+                      school.logo.name, flush=True)
+                school.logo.delete(save=False)
+                print("Deleted existing logo file")
+
+            # Save the new logo file
             print("Received file with name:", logo_file.name)
             school.logo.save(logo_file.name, logo_file, save=True)
-            print(f'School Updated or Created: {school}')
+            print(f'New logo uploaded for school: {school}')
+
         return JsonResponse({"status": "success", "message": "Webhook received"})
     else:
         return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)

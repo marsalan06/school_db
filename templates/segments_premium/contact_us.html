@@ -1,0 +1,55 @@
+
+{% load static %}
+
+
+<section class="section contact" data-section="section6" id="contact_us">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Let’s Keep In Touch</h2>
+          </div>
+        </div>
+        <div class="col-md-6">
+                    
+          <form action="{% url 'contact_submit' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <h3 class="title">Contact us </h3>
+            <div class="input-container">
+                <input type="text" name="name" class="input" placeholder="Enter your username" />
+            </div>
+            <div class="input-container">
+                <input type="email" name="email" class="input" placeholder="Enter your email" />
+            </div>
+            <div class="input-container">
+                <input type="tel" name="phone" class="input" placeholder="Enter your phone number" />
+            </div>
+            <div class="input-container textarea">
+                <textarea name="message" class="input" placeholder="Enter your message"></textarea>
+            </div>
+            <div class="input-container">
+                {{ form.captcha.error }}
+                {{ form.captcha }}
+            </div>
+            <input type="hidden" name="uuid" value="{{ school.uuid }}">
+            <input type="submit" value="Send" class="btn" />
+        </form> 
+        </div>
+        <div class="col-md-6">
+          <div id="map" style="height: 500px; width: 100%;"></div>
+        </div>
+      </div>
+      
+    </div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY }}"></script>
+    <script>
+      
+    // console.log({{GOOGLE_MAPS_API_KEY}})
+      var latitude = {{ school.latitude }};
+      var longitude = {{ school.longitude }};
+   
+  </script>
+  
+    </section>
+    
+    

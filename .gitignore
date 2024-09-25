@@ -3,6 +3,9 @@ db.sqlite3
 school/__pycache__
 school/migrations/__pycache__/
 venv/
-media/
+media/*
+
+# Allow files directly in the media folder
+!media/*.*
 static/
 .env

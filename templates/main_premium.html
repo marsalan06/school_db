@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>{{ school.name }}</title>
+  <!-- Font Family -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/flex-slider.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/fontawesome.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/lightbox.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/owl.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/footer.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/style.css' %}">
+  <link rel="stylesheet" media="all" href="{% static 'premium_css/bootstrap/css/bootstrap.min.css' %}">
+</head>
+<body>
+  <!-- ***** Header Start ***** -->
+  {% include "segments_premium/header.html" %}
+  {% block content %}
+  <!-- Placeholder for content, to be overridden by other templates -->
+  {% endblock content %}
+  {% include "segments_premium/footer_section.html" %}
+  <!-- Scripts -->
+  <script src="{% static 'premium_js/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'premium_js/isotope.min.js' %}"></script>
+  <script src="{% static 'premium_js/owl-carousel.js' %}"></script>
+  <script src="{% static 'premium_js/lightbox.js' %}"></script>
+  <script src="{% static 'premium_js/tabs.js' %}"></script>
+  <script src="{% static 'premium_js/video.js' %}"></script>
+  <script src="{% static 'premium_js/slick-slider.js' %}"></script>
+  <script src="{% static 'premium_js/custom.js' %}"></script>
+  <script src="{% static 'premium_js/map.js' %}"></script>
+  <!-- <script src="{% static 'premium_js/news.js' %}"></script> -->
+  <script>
+   
+      const primaryColor = '{{ school.primary_color }}';
+      const secondaryColor = '{{ school.secondary_color }}';
+      
+
+      document.documentElement.style.setProperty('--primary-color', primaryColor);
+      document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+    
+  </script>
+</body>
+</html>

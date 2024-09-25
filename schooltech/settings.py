@@ -109,6 +109,24 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s "
+            "%(process)d %(thread)d %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        }
+    },
+    "root": {"level": "INFO", "handlers": ["console"]},
+}
 
 # if DEBUG:
 #     DATABASES = {
@@ -227,3 +245,5 @@ else:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LMS_SERVER_URL = config('LMS_SERVER_URL')
 LMS_EXTERNAL_URL = config('LMS_EXTERNAL_URL')
+GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
+GOOGLE_MAPS_MAP_ID = config('GOOGLE_MAPS_MAP_ID')

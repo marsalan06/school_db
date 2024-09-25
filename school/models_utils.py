@@ -1,14 +1,29 @@
+
 def default_json_data_links():
-    links = [
-        {"name": "Privacy Policy", "link": "/privacy"},
-        {"name": "Terms of Use", "link": "/terms"}
-    ]
-    return links
+    return {
+        "programs": [
+            {"name": "Undergraduate Programs", "url": "/"},
+            {"name": "Graduate School", "url": "/"}
+        ],
+        "quick_links": [
+            {"name": "Admission Requirements", "url": "#"},
+            {"name": "Tuition Fees", "url": "/"},
+            {"name": "Scholarships and Financial Aid", "url": "/"}
+        ],
+        "downloads": [
+            {"name": "School Prospectus", "url": "/"},
+            {"name": "Annual Report 2024", "url": "/"}
+        ],
+        "contact": [
+            {"name": "Contact Us", "url": "/"},
+            {"name": "Maps & Directions", "url": "/"},
+            {"name": "Jobs", "url": "/"}
+        ]
+    }
 
 
 def default_json_data_social_media():
-    social_media_links = [
-        {"platform": "Facebook", "link": "https://facebook.com"},
-        {"platform": "Twitter", "link": "https://twitter.com"}
+    return [
+        {"icon_url": "/static/insta.svg", "url": "/"},
+        {"icon_url": "/static/facebook.svg", "url": "/"}
     ]
-    return social_media_links

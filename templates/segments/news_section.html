@@ -9,9 +9,11 @@
                         <p>{{ news_event.title }}</p>
                         <a>
                             {% if news_event.image_url %}
-                                <img src="{% static news_event.image_url %}" alt="{{ news_event.title }}">
+                                <img src="{{ news_event.image_url }}" 
+                                    alt="{{ news_event.title }}" 
+                                    onerror="this.onerror=null;this.src='{% static 'news-section-sample.jpg' %}';">
                             {% else %}
-                                <img src="{% static 'news1.jpg' %}" alt="Default News Image">
+                                <img src="{% static 'news-section-sample.jpg' %}" alt="Default News Image">
                             {% endif %}
                         </a>
                         <div class="date-tag d-flex">

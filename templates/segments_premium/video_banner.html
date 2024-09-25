@@ -1,0 +1,59 @@
+{% load static %}
+<section class="section main-banner" id="top" data-section="section1">
+  <video autoplay muted loop id="bg-video">
+    <source id="bannerVideoSource" 
+        {% if banner.banner_video %}
+            src="{{ banner.banner_video.url }}"
+        {% else %}
+            src="{% static 'course-video.mp4' %}"
+        {% endif %}
+        type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="video-overlay header-text">
+    <div class="caption">
+      <!-- <h6>Graduate School of Management</h6> -->
+      <h2><em>{{ school.name }} </em></h2>
+
+      <div class="main-button">
+        <div class="scroll-to-section">
+          <a href="{{LMS_EXTERNAL_URL}}" target="_blank" >Go to Portal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Ensure the page fully loads before executing the script
+  window.addEventListener('load', function() {
+    // Get the video and source elements
+    const video = document.getElementById('bg-video');
+    const source = document.getElementById('bannerVideoSource');
+
+    // Set the fallback video URL
+    const fallbackVideo = "{% static 'course-video.mp4' %}";
+
+    console.log("Page loaded, checking video source...");
+
+    // Listen for the 'error' event on the video element
+    video.addEventListener('error', function() {
+        console.log("Video element error detected, switching to fallback.");
+        source.src = fallbackVideo;
+        video.load(); // Reload the video with the new source
+        video.play(); // Play the video again
+    });
+
+    // Listen for the 'error' event on the source element
+    source.addEventListener('error', function() {
+        console.log("Source element error detected, switching to fallback.");
+        source.src = fallbackVideo;
+        video.load(); // Reload the video with the new source
+        video.play(); // Play the video again
+    });
+
+    // Optional: Force a reload after attaching the event handlers to ensure they catch errors
+    video.load();
+  });
+</script>

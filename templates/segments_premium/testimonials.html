@@ -1,0 +1,26 @@
+{% load static %}
+<div class="testimonial-container" id="testimonials">
+    <h2>Testimonials</h2>
+    <div class="testimonial-boxes">
+        <!-- Testimonials will be dynamically injected here -->
+    </div>
+    <div class="navigation-buttons">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+    </div>
+</div>
+
+<!-- Embed JSON data directly in a script tag within the block -->
+<script type="text/javascript">
+    window.testimonials = [
+        {% for testimonial in testimonials %}
+        {
+            "quote": "{{ testimonial.quote|escapejs }}",
+            "author": "{{ testimonial.author|escapejs }}",
+            "relation": "{{ testimonial.relation|escapejs }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+</script>
+
+<script src="{% static 'premium_js/testimonials.js' %}"></script>

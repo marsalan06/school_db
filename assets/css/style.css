@@ -54,3 +54,37 @@
 .container h1, .container h2 {
     color: #007bff; /* Blue */
 }
+
+
+
+
+
+
+/* location */
+
+
+/* Style for the map location section */
+.map-location {
+    background-color: var(--color-grey); /* Light grey background for map section */
+    padding: 50px 0; /* Padding around the section */
+  }
+  
+  .map-location .container {
+    max-width: 1200px; /* Adjust max-width for responsiveness */
+    margin: 0 auto; /* Center container */
+    padding: 0 15px; /* Padding inside container */
+  }
+  
+  .map-location h2 {
+    font-size: 28px; /* Font size for heading */
+    margin-bottom: 20px; /* Space below heading */
+    text-align: center; /* Center heading */
+    color: var(--color-primary); /* Primary color for heading text */
+  }
+  
+  .map-container {
+    border-radius: 8px; /* Rounded corners for map container */
+    overflow: hidden; /* Ensure map fits within rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Light shadow for 3D effect */
+    height: 400px; /* Height of the map */
+  }

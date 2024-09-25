@@ -1,0 +1,43 @@
+
+{% extends "main_premium.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<!-- ***** Main Banner Area Start ***** -->
+{% include "segments_premium/video_banner.html" %} 
+
+{% include "segments_premium/notifications.html" %}
+
+
+
+{% if show_about_section %}
+{% include "segments_premium/about_us.html" %}
+{% endif %}
+
+
+{% if show_coming_soon %}
+{% include "segments_premium/comming_soon.html" %}
+{% endif %}
+
+
+
+{% if show_testimonials and 'Testimonials' in nav_list %}
+{% include "segments_premium/testimonials.html" %}
+{% endif %}
+
+{% include "segments_premium/video.html" %}
+
+
+{% if show_news_section and 'News' in nav_list %}
+{% include "segments_premium/news_section.html" %}
+{% endif %}
+
+{% if show_event_section and 'Events' in nav_list %}
+{% include "segments_premium/events.html" %}
+{% endif %}
+
+{% include "segments_premium/contact_us.html" %}
+
+{% endblock content %}`
