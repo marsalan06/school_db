@@ -43,12 +43,6 @@
                                 Your browser does not support the video tag. <a href="{% static school.video %}">Download the video</a>
                             </video>
                         {% else %}
-                            <!-- If video_url is present, embed the video using iframe -->
-                            <!-- <iframe width="560" height="315" src="{{ school.video_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-                            
-                            <!-- <a href="{{ school.video_url }}" class="play">
-                                <img src="{% static school.video_thumbnail %}" alt="Video Thumbnail">
-                            </a> -->
 
                             <iframe width="560" height="315"
                                 src="https://www.youtube.com/embed/{{ school.video_url | slice:'-11:' }}"
