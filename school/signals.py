@@ -22,9 +22,17 @@ def delete_model_files(instance):
             print("-----defualt---file----", default_file, flush=True)
             # Ensure the file exists and is not the default file before deleting
             if file_field and file_field.name and file_field.name != default_file and file_field.name not in PROTECTED_FILES and default_storage.exists(file_field.path):
-                print("-----field name to delete-----", field.name, flush=True)
-                file_field.delete(save=False)
-
+                if hasattr(file_field.storage, 'path'):
+                    if default_storage.exists(file_field.path):
+                        print("-----field name to delete-----",
+                              field.name, flush=True)
+                        file_field.delete(save=False)
+                # For S3 storage (or any storage that doesn't support 'path')
+                else:
+                    if file_field.storage.exists(file_field.name):
+                        print("-----field name to delete on S3-----",
+                              field.name, flush=True)
+                        file_field.delete(save=False)
 # Generic signal handler for any model with file fields
 
 
