@@ -16,23 +16,28 @@ def delete_model_files(instance):
             file_field = getattr(instance, field.name)
             print("-----instance----", instance.__dict__, flush=True)
             print("-----field name-----", field.name, flush=True)
-            print("----file_filed-----", file_field, flush=True)
+            print("----file_field-----", file_field, flush=True)
             # Get the default file name (if defined) from the field's default attribute
             default_file = field.default if field.default != '' else None
-            print("-----defualt---file----", default_file, flush=True)
+            print("-----default---file----", default_file, flush=True)
+
             # Ensure the file exists and is not the default file before deleting
-            if file_field and file_field.name and file_field.name != default_file and file_field.name not in PROTECTED_FILES and default_storage.exists(file_field.path):
+            if file_field and file_field.name and file_field.name != default_file and file_field.name not in PROTECTED_FILES:
+                # For local storage (supports 'path')
                 if hasattr(file_field.storage, 'path'):
-                    if default_storage.exists(file_field.path):
+                    # Use file_field.storage here
+                    if file_field.storage.exists(file_field.path):
                         print("-----field name to delete-----",
                               field.name, flush=True)
                         file_field.delete(save=False)
-                # For S3 storage (or any storage that doesn't support 'path')
+                # For S3 storage (does not support 'path')
                 else:
+                    # Use file_field.name for S3
                     if file_field.storage.exists(file_field.name):
                         print("-----field name to delete on S3-----",
                               field.name, flush=True)
                         file_field.delete(save=False)
+
 # Generic signal handler for any model with file fields
 
 
