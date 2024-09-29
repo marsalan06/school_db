@@ -17,7 +17,8 @@ from .models_utils import (default_json_data_links,
 
 class School(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    domain = models.CharField(max_length=100, unique=True)
+    domain = models.CharField(
+        max_length=100, unique=True, null=True, blank=True)
     uuid = models.CharField(max_length=6, unique=True,
                             editable=False)  # No default here
     address = models.CharField(max_length=255)
