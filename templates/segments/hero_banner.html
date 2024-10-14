@@ -38,10 +38,10 @@
     <div class="image-wrap">
         {% if banner.image.url %}
         <img src="{{ banner.image.url }}" 
-         alt="Hero Banner" 
-         onerror="this.onerror=null;this.src='{% static 'sample_banner.jpeg' %}';">
+             alt="Hero Banner" 
+             onerror="this.onerror=null;this.src='{{ MEDIA_URL }}sample_banner.jpeg';">
         {% else %}
-        <img src="{% static 'sample_banner.jpeg' %}" alt="Hero Banner">
+        <img src="{{MEDIA_URL }}sample_banner.jpeg" alt="Hero Banner">
         {% endif %}
         <div class="text-overlay">
             <h2><em>{{ school.name }}</em></h2>

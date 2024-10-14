@@ -5,11 +5,11 @@
         {% if banner.banner_video %}
             src="{{ banner.banner_video.url }}"
         {% else %}
-            src="{% static 'course-video.mp4' %}"
+            src="{{ MEDIA_URL }}course-video.mp4"
         {% endif %}
         type="video/mp4">
     Your browser does not support the video tag.
-  </video>
+</video>
 
   <div class="video-overlay header-text">
     <div class="caption">

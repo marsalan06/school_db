@@ -11,10 +11,11 @@
                             {% if news_event.image_url %}
                                 <img src="{{ news_event.image_url }}" 
                                     alt="{{ news_event.title }}" 
-                                    onerror="this.onerror=null;this.src='{% static 'news-section-sample.jpg' %}';">
+                                    onerror="this.onerror=null;this.src='{{ MEDIA_URL }}news-section-sample.jpg';">
                             {% else %}
-                                <img src="{% static 'news-section-sample.jpg' %}" alt="Default News Image">
+                                <img src="{{ MEDIA_URL }}news-section-sample.jpg" alt="Default News Image">
                             {% endif %}
+
                         </a>
                         <div class="date-tag d-flex">
                             <span class="date">{{ news_event.updated_date|date:"M d, Y" }}</span>
