@@ -1,12 +1,17 @@
 {% load static %}
 <header id="site-header" class="site-header">
     <div class='leftpan'>
+        {% if school.logo.url %}
         <a class='site-logo' href='./'>
-            <img src="{{ school.logo.url|default:'{% static "sample_logo.png" %}' }}" 
-                 alt='Header logo'
-                 onerror="this.onerror=null;this.src='{% static "sample_logo.png" %}';">
+            <img src="{{ school.logo.url }}" alt="Header logo"
+                 onerror="this.onerror=null;this.src='{{ MEDIA_URL }}sample_logo.png';">
         </a>
-    </div>
+        {% else %}
+            <a class='site-logo' href='./'>
+                <img src="{{ MEDIA_URL }}sample_logo.png" alt="Default Logo Image">
+            </a>
+        {% endif %}
+    </div>    
     <div class='rightpan d-m-none desktop-rightpan'>
         <nav>
             <ul>

@@ -22,10 +22,10 @@
                                     <div class="col-md-6">
                                         {% if tab.image.url %}
                                             <img src="{{ tab.image.url }}" 
-                                                 alt="{{ tab.title }}" 
-                                                 onerror="this.onerror=null;this.src='{% static 'about-section-sample.png' %}';">
+                                                alt="{{ tab.title }}" 
+                                                onerror="this.onerror=null;this.src='{{ MEDIA_URL }}about-section-sample.png';">
                                         {% else %}
-                                            <img src="{% static 'about-section-sample.png' %}" alt="{{ tab.title }}">
+                                            <img src="{{ MEDIA_URL }}about-section-sample.png" alt="{{ tab.title }}">
                                         {% endif %}
                                     </div>
                                     <div class="col-md-6">

@@ -2,9 +2,14 @@
 <header class="main-header clearfix" role="header">
   <div class="logo">
     <a class='site-logo' href='./'>
-      <img src="{{ school.logo.url|default:'{% static "sample_logo.png" %}' }}" 
-           alt='Header logo'
-           onerror="this.onerror=null;this.src='{% static "sample_logo.png" %}';">
+      {% if school.logo.url %}
+          <img src="{{ school.logo.url }}" 
+              alt="Header logo" 
+              onerror="this.onerror=null;this.src='{{ MEDIA_URL }}sample_logo.png';">
+      {% else %}
+          <img src="{{ MEDIA_URL }}sample_logo.png" alt="Default Header Logo">
+      {% endif %}
+
     </a>
   </div>
 
