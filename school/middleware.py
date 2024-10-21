@@ -1,20 +1,16 @@
-import json
-import os
+import environ
 from django.http import HttpResponseForbidden
 from django.contrib.sites.models import Site
 from django.http import Http404
 from .models import School
 from django.shortcuts import render
-
-
-import json
-import os
-from django.http import HttpResponseForbidden
-from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.utils.deprecation import MiddlewareMixin
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 class HostRestrictMiddleware(MiddlewareMixin):
@@ -54,10 +50,19 @@ def invalidate_allowed_hosts_cache(sender, **kwargs):
 class SchoolDomainMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
         self.get_response = get_response
+        self.allowed_domains = env.list('ALLOWED_DOMAINS')  # Load from .env
         super().__init__(get_response)
 
     def __call__(self, request):
         host = request.get_host().split(':')[0].lower()
+
+        # Allow specific default domains
+        if host in self.allowed_domains:
+            request.site = None
+            request.school = None
+            response = self.get_response(request)
+            return response
+
         try:
             current_site = Site.objects.get(domain__iexact=host)
             request.site = current_site
