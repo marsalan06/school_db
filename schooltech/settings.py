@@ -30,18 +30,19 @@ SECRET_KEY = 'django-insecure-nlkh$7bp%&*28oq9!l&&4udd-dg+ix-p%7=@0ew-2j119uem6h
 DEBUG = True
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-allowed_hosts_file = os.path.join(BASE_DIR, 'allowed_hosts.json')
+# # allowed_hosts_file = os.path.join(BASE_DIR, 'allowed_hosts.json')
 
 
-# Load allowed hosts from JSON file
-def load_allowed_hosts():
-    with open(allowed_hosts_file) as f:
-        data = json.load(f)
-    return data.get('allowed_hosts', [])
+# # # Load allowed hosts from JSON file
+# # def load_allowed_hosts():
+# #     with open(allowed_hosts_file) as f:
+# #         data = json.load(f)
+# #     return data.get('allowed_hosts', [])
 
 
-ALLOWED_HOSTS = load_allowed_hosts()
+# ALLOWED_HOSTS = load_allowed_hosts()
 
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -249,3 +250,4 @@ LMS_SERVER_URL = config('LMS_SERVER_URL')
 LMS_EXTERNAL_URL = config('LMS_EXTERNAL_URL')
 GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
 GOOGLE_MAPS_MAP_ID = config('GOOGLE_MAPS_MAP_ID')
+SESSION_COOKIE_NAME = 'school_sessionid'

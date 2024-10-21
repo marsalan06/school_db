@@ -116,11 +116,15 @@ def update_preview_view(request, school_id):
 def new_update_preview_view(request, school_id=None):
     # Fetch the school instance by ID or return a 404 error if not found
     if school_id:
-        school = get_object_or_404(School, pk=school_id)
+        try:
+            school = School.objects.get(pk=school_id)
+        except School.DoesNotExist:
+            # Render the custom "School Not Found" page instead of raising Http404
+            return render(request, 'school_not_found.html', status=404)
     else:
-        print("-----tt-t--t-", request.school, flush=True)
-        if not request.school:
-            raise Http404("School not found")
+        if not hasattr(request, 'school') or not request.school:
+            # Render the custom "School Not Found" page instead of raising Http404
+            return render(request, 'school_not_found.html', status=404)
         school = request.school
 
     # Fetch related objects from the database, ensuring they are related to the fetched school
