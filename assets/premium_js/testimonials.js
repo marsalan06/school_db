@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const testimonialsData = window.testimonials;
-    const testimonialsPerPage = 5; // Number of testimonials to show per page
+    const testimonialsPerPage = 3; // Number of testimonials to show per page
     let currentPage = 0;
 
     function renderTestimonials() {
