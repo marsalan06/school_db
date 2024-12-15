@@ -55,6 +55,12 @@ class SchoolDomainMiddleware(MiddlewareMixin):
 
     def __call__(self, request):
         host = request.get_host().split(':')[0].lower()
+        excluded_paths = [
+            '/api/webhook/receive/',  # Add other paths as needed
+        ]
+        if request.path in excluded_paths:
+            print("Skipping SchoolDomainMiddleware for:", request.path)
+            return self.get_response(request)
 
         # Allow specific default domains
         if host in self.allowed_domains:
