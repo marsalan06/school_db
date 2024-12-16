@@ -1,17 +1,21 @@
 {% load static %}
-<div class="testimonial-section" id="testimonials">
-    <div class="sec-inner">
-        <h2 class="sub-title">User Testimonials</h2>
-        <div class="testimonial-grid" style="display: flex; flex-wrap: wrap; gap: 20px;">
-            {% for testimonial in testimonials %}
-                <div class="testimonial-item" style="flex: 0 1 calc(33.333% - 20px); box-sizing: border-box;">
-                    <p>"{{ testimonial.quote }}"</p>
-                    <p><strong>- {{ testimonial.author }}</strong></p>
-                    {% if testimonial.relation %}
-                        <p><small>({{ testimonial.relation }})</small></p>
-                    {% endif %}
+<section id="testimonials">
+    <div class="testimonial-section" id="testimonials">
+        <div class="sec-inner">
+            <h2 class="sub-title">User Testimonials</h2>
+            <div class="slider">
+                <div class="slider-wrapper">
+                    {% for testimonial in testimonials %}
+                        <div class="slider-card">
+                            <p class="quote">"{{ testimonial.quote }}"</p>
+                            <p class="author"><strong>- {{ testimonial.author }}</strong></p>
+                            {% if testimonial.relation %}
+                                <p class="relation"><small>({{ testimonial.relation }})</small></p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
-</div>
+</section>

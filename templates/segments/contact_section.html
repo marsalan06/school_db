@@ -1,45 +1,50 @@
 {% load static %}
+<section id="contact%20us">
 <div class="contact-sec" id="contact">
-    <img src="{% static 'img/shape.png' %}" class="square" alt="" />
+    <img src="{% static 'img/shape.png' %}" class="square" alt="Shape" />
     <div class="form">
+        <!-- Contact Information Section -->
         <div class="contact-info">
-            <h3 class="title">Let's get in touch</h3>
-            <p>Checkout Our Contact Information Or Fill The Form</p>
+            <h3 class="title">Let's Get In Touch</h3>
+            <p class="subtitle">Feel free to reach out to us for any inquiries or questions!</p>
         
+            <!-- Contact Info -->
             <div class="info">
                 <div class="information">
-                    <i class="fas fa-map-marker-alt"></i> &nbsp &nbsp
+                    <i class="fas fa-map-marker-alt"></i>
                     <p>{{ school.address }}</p>
                 </div>
                 <div class="information">
-                    <i class="fas fa-envelope"></i> &nbsp &nbsp
+                    <i class="fas fa-envelope"></i>
                     <p>{{ school.email }}</p>
                 </div>
                 <div class="information">
-                    <i class="fas fa-phone"></i>&nbsp&nbsp
+                    <i class="fas fa-phone"></i>
                     <p>{{ school.phone_no }}</p>
                 </div>
             </div>
         
+            <!-- Social Media Section -->
             <div class="social-media">
-                <p>Connect with us :</p>
+                <p>Connect with us:</p>
                 <div class="social-icons">
-                    <a href="#">
+                    <a href="#" class="social-icon">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="#">
+                    <a href="#" class="social-icon">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#">
+                    <a href="#" class="social-icon">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#">
+                    <a href="#" class="social-icon">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
                 </div>
             </div>
         </div>
         
+        <!-- Contact Form Section -->
         <div class="contact-form">
             <span class="circle one"></span>
             <span class="circle two"></span>
@@ -47,3 +52,7 @@
         </div>
     </div>
 </div>
+</section>
+
+
+

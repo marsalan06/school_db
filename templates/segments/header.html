@@ -1,31 +1,70 @@
 {% load static %}
-<header id="site-header" class="site-header">
-    <div class='leftpan'>
-        {% if school.logo.url %}
-        <a class='site-logo' href='./'>
-            <img src="{{ school.logo.url }}" alt="Header logo"
-                 onerror="this.onerror=null;this.src='{{ MEDIA_URL }}sample_logo.png';">
-        </a>
-        {% else %}
-            <a class='site-logo' href='./'>
-                <img src="{{ MEDIA_URL }}sample_logo.png" alt="Default Logo Image">
+<!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- FontAwesome for Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS (including Popper.js for Offcanvas) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<header id="site-header" class="site-header py-3 shadow-sm ">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Left Panel: Logo -->
+        <div class="leftpan d-flex align-items-center">
+            {% if school.logo.url %}
+            <a class="site-logo" href="./">
+                <img src="{{ school.logo.url }}" alt="Header logo" class="logo-img" style="height: 50px;"
+                     onerror="this.onerror=null;this.src='{{ MEDIA_URL }}sample_logo.png';">
             </a>
-        {% endif %}
-    </div>    
-    <div class='rightpan d-m-none desktop-rightpan'>
-        <nav>
-            <ul>
+            {% else %}
+            <a class="site-logo" href="./">
+                <img src="{{ MEDIA_URL }}sample_logo.png" alt="Default Logo Image" class="logo-img" style="height: 50px;">
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="btn" class="button d-md-none mr-2" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+    <i class="fas fa-bars"></i>
+</button>
+        <!-- Desktop Navigation -->
+        <div class="rightpan desktop-rightpan d-none d-md-flex align-items-center">
+            <nav>
+                <ul class="nav-list d-flex list-unstyled mb-0">
+                    {% for item in navigation %}
+                    <li class="nav-item me-4">
+                        <a class="nav-link text-dark text-uppercase fw-semibold" href="#{{ item.name|lower }}">
+                            {{ item.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <a href="{{ LMS_EXTERNAL_URL }}" target="_blank" id="btn" class="btn  ms-4 px-3">Go to Portal</a>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (Offcanvas) -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title fw-bold" id="mobileMenuLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-unstyled">
                 {% for item in navigation %}
-                <li>
-                    <a class='' href="#{{ item.name|lower }}">
+                <li class="mb-3">
+                    <a class="text-dark fw-semibold text-decoration-none" href="#{{ item.name|lower }}">
                         {{ item.name }}
                     </a>
                 </li>
                 {% endfor %}
             </ul>
-        </nav>
-        <a href="{{ LMS_EXTERNAL_URL }}" target="_blank" class="goto-btn">Go to Portal</a>
+            <a href="{{ LMS_EXTERNAL_URL }}" target="_blank" id="btn" class="btn w-100 mt-3">Go to Portal</a>
+        </div>
     </div>
-    <!-- Include mobile menu -->
-    {% include "segments/mobile_menu.html" %}
 </header>
+
+
+

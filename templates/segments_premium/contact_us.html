@@ -1,46 +1,138 @@
 
 {% load static %}
+<style>
+  .contact-card {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
 
+  .contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .form-control:focus {
+    box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+  }
+
+  .btn-primary {
+    background: #6c63ff;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #5049c3;
+    transform: translateY(-2px);
+  }
+
+  #map {
+    transition: all 0.3s ease;
+  }
+</style>
 
 <section class="section contact" data-section="section6" id="contact_us">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="section-heading">
-            <h2>Let’s Keep In Touch</h2>
-          </div>
-        </div>
-        <div class="col-md-6">
-                    
-          <form action="{% url 'contact_submit' %}" method="post" autocomplete="off">
-            {% csrf_token %}
-            <h3 class="title">Contact us </h3>
-            <div class="input-container">
-                <input type="text" name="name" class="input" placeholder="Enter your username" />
-            </div>
-            <div class="input-container">
-                <input type="email" name="email" class="input" placeholder="Enter your email" />
-            </div>
-            <div class="input-container">
-                <input type="tel" name="phone" class="input" placeholder="Enter your phone number" />
-            </div>
-            <div class="input-container textarea">
-                <textarea name="message" class="input" placeholder="Enter your message"></textarea>
-            </div>
-            <div class="input-container">
-                {{ form.captcha.error }}
-                {{ form.captcha }}
-            </div>
-            <input type="hidden" name="uuid" value="{{ school.uuid }}">
-            <input type="submit" value="Send" class="btn" />
-        </form> 
-        </div>
-        <div class="col-md-6">
-          <div id="map" style="height: 500px; width: 100%;"></div>
+  <div class="container">
+    <!-- Section Heading -->
+    <div class="row mb-5">
+      <div class="col-md-12 text-center">
+        <div class="section-heading">
+          <h2 class="fw-bold" style="color: #333;">Let’s Keep In Touch</h2>
+          <p class="lead" style="color: #666;">We’d love to hear from you! Send us your queries or feedback.</p>
         </div>
       </div>
-      
     </div>
+
+    <div class="row align-items-center">
+      <!-- Contact Form -->
+      <div class="col-md-6 mb-4">
+        <form action="{% url 'contact_submit' %}" method="post" autocomplete="off" class="p-4 shadow-lg rounded bg-white contact-card">
+          {% csrf_token %}
+          <h3 class="title mb-4 text-primary fw-bold">Contact Us</h3>
+
+          <!-- Name Input -->
+          <div class="input-container mb-3">
+            <label for="name" class="form-label fw-semibold">Your Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control rounded-pill px-3 py-2"
+              placeholder="Enter your name"
+              required
+            />
+          </div>
+
+          <!-- Email Input -->
+          <div class="input-container mb-3">
+            <label for="email" class="form-label fw-semibold">Your Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control rounded-pill px-3 py-2"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <!-- Phone Input -->
+          <div class="input-container mb-3">
+            <label for="phone" class="form-label fw-semibold">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="form-control rounded-pill px-3 py-2"
+              placeholder="Enter your phone number"
+            />
+          </div>
+
+          <!-- Message Input -->
+          <div class="input-container mb-3">
+            <label for="message" class="form-label fw-semibold">Your Message</label>
+            <textarea
+              id="message"
+              name="message"
+              class="form-control rounded px-3 py-2"
+              rows="5"
+              placeholder="Enter your message"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Captcha Field -->
+          <div class="input-container mb-3">
+            {% if form.captcha.errors %}
+              <div class="text-danger">
+                {{ form.captcha.errors }}
+              </div>
+            {% endif %}
+            {{ form.captcha }}
+          </div>
+
+          <!-- Hidden UUID -->
+          <input type="hidden" name="uuid" value="{{ school.uuid }}" />
+
+          <!-- Submit Button -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Google Map -->
+      <div class="col-md-6 mb-4">
+        <div class="rounded shadow-lg overflow-hidden" style="height: 500px;">
+          <div id="map" style="height: 100%; width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY }}"></script>
     <script>
       
@@ -52,4 +144,6 @@
   
     </section>
     
-    
+    {% load static %}
+
+

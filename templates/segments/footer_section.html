@@ -1,78 +1,79 @@
 {% load static %}
-<footer>
+<footer class="footer">
     <div class="top-bar"></div>
-    <div class="main-links d-flex">
-        <div class="column-1">
+    
+    <!-- Main Links Section -->
+    <div class="main-links">
+        <!-- Column 1: Logo -->
+        <div class="column-1 logo">
             {% if school.logo.url %}
-                <img src="{{ school.logo.url }}" 
-                    alt="Header logo" 
-                    onerror="this.onerror=null;this.src='{{ MEDIA_URL }}sample_logo.png';">
+                <img src="{{ school.logo.url }}" alt="School Logo" 
+                     onerror="this.onerror=null;this.src='{{ MEDIA_URL }}sample_logo.png';">
             {% else %}
-                <img src="{{ MEDIA_URL }}sample_logo.png" alt="Default Header Logo">
+                <img src="{{ MEDIA_URL }}sample_logo.png" alt="Default School Logo">
             {% endif %}
-
         </div>
-        <!-- Column 2: Academic Programs (Dynamically pulled from links JSON) -->
+
+        <!-- Column 2: Academic Programs -->
         <div class="column column-2">
             <h3>Academic Programs</h3>
             <ul>
                 {% for program in footer_content.links.programs %}
-                <li><a href="{{ program.url }}">{{ program.name }}</a></li>
+                    <li><a href="{{ program.url }}">{{ program.name }}</a></li>
                 {% endfor %}
             </ul>
         </div>
 
-        <!-- Column 3: Quick Links (Dynamically pulled from links JSON) -->
+        <!-- Column 3: Quick Links -->
         <div class="column column-3">
             <h3>Quick Links</h3>
             <ul>
                 {% for quick_link in footer_content.links.quick_links %}
-                <li><a href="{{ quick_link.url }}">{{ quick_link.name }}</a></li>
+                    <li><a href="{{ quick_link.url }}">{{ quick_link.name }}</a></li>
                 {% endfor %}
             </ul>
         </div>
 
-         <!-- Column 4: Downloads (Dynamically pulled from links JSON) -->
+        <!-- Column 4: Downloads -->
         <div class="column column-4">
             <h3>Downloads</h3>
             <ul>
                 {% for download in footer_content.links.downloads %}
-                <li><a href="{{ download.url }}">{{ download.name }}</a></li>
+                    <li><a href="{{ download.url }}">{{ download.name }}</a></li>
                 {% endfor %}
             </ul>
         </div>
 
-        <!-- Column 5: Get in Touch (Dynamically pulled from links JSON) -->
+        <!-- Column 5: Get in Touch -->
         <div class="column column-5">
-            <div>
-                <h3>Get in Touch</h3>
-                <ul>
-                    {% for contact in footer_content.links.contact %}
+            <h3>Get in Touch</h3>
+            <ul>
+                {% for contact in footer_content.links.contact %}
                     <li><a href="{{ contact.url }}">{{ contact.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+                {% endfor %}
+            </ul>
         </div>
 
+        <!-- Column 6: Social Media -->
         <div class="column column-6">
-            <div>
-                <h3>Connect with us</h3>
-                <ul class="d-flex">
-                    {% for social in footer_content.social_media %}
-                    <li>
-                        <a href="{{ social.url }}">
-                            <img src="{{ social.icon_url }}">
+            <h3>Connect with us</h3>
+            <ul class="social-media-icons">
+                {% for social in footer_content.social_media %}
+                    <li class="">
+                        <a href="{{ social.url }}" target="_blank" class="social-icon">
+                            <img src="{{ social.icon_url }}" alt="{{ social.name }} icon">
                         </a>
                     </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                {% endfor %}
+            </ul>
         </div>
-
     </div>
+
     <!-- Footer About Text and Copyright -->
-    <div class="copyright">
+    <div class="footer-bottom">
         <p>{{ footer_content.about_text }}</p>
-        <p>Copyright (c) 2024 {{ school.name }}</p>
+        <p>&copy; 2024 {{ school.name }}. All rights reserved.</p>
     </div>
 </footer>
+
+
