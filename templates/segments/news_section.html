@@ -1,40 +1,43 @@
 {% load static %}
-<div class="recent-new" id="news">
+<section id="news">
+  <div class="recent-new" id="news">
     <div class="sec-inner">
-        <h2 class="sub-title">Recent News</h2>
-        <div class="news-sec">
-            {% for news_event in news_events %}
-                {% if news_event.posted_as == 'News' %}
-                    <div class="news-body d-flex flex-column">
-                        <p>{{ news_event.title }}</p>
-                        <a>
-                            {% if news_event.image_url %}
-                                <img src="{{ news_event.image_url }}" 
-                                    alt="{{ news_event.title }}" 
-                                    onerror="this.onerror=null;this.src='{{ MEDIA_URL }}news-section-sample.jpg';">
-                            {% else %}
-                                <img src="{{ MEDIA_URL }}news-section-sample.jpg" alt="Default News Image">
-                            {% endif %}
-
-                        </a>
-                        <div class="date-tag d-flex">
-                            <span class="date">{{ news_event.updated_date|date:"M d, Y" }}</span>
-                            <ul class="d-flex">
-                                {% for tag in news_event.tags %}
-                                    {% if forloop.counter|divisibleby:2 %}
-                                            <li><a class="yellow">{{ tag }}</a></li>
-                                    {% else %}
-                                            <li><a class="green">{{ tag }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <a href="{{ news_event.link }}">
-                            <h3 class="news-title">{{ news_event.summary }}</h3>
-                        </a>
-                    </div>
-                {% endif %}
-            {% endfor %}
+      <h2 class="sub-title">Recent News</h2>
+      <div class="slider">
+        <div class="slider-wrapper">
+          {% for news_event in news_events %}
+            {% if news_event.posted_as == 'News' %}
+              <div class="slider-card">
+                <a href="{{ news_event.link }}" class="card-link">
+                  <div class="news-image">
+                    {% if news_event.image_url %}
+                      <img src="{{ news_event.image_url }}"
+                           alt="{{ news_event.title }}"
+                           onerror="this.onerror=null;this.src='{{ MEDIA_URL }}news-section-sample.jpg';">
+                    {% else %}
+                      <img src="{{ MEDIA_URL }}news-section-sample.jpg" alt="Default News Image">
+                    {% endif %}
+                  </div>
+                  <p class="news-title">{{ news_event.title }}</p>
+                  <div class="date-tag d-flex">
+                    <span class="date">{{ news_event.updated_date|date:"M d, Y" }}</span>
+                    <ul class="d-flex tag-list">
+                      {% for tag in news_event.tags %}
+                        <li>
+                          <a class="{% cycle 'yellow-tag' 'green-tag' %}">{{ tag }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <p class="news-summary">{{ news_event.summary }}</p>
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
+      </div>
     </div>
-</div>
+  </div>
+</section>
+
+

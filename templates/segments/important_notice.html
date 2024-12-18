@@ -1,28 +1,71 @@
 {% load static %}
-<div class="important-sec" id="events">
+<section id="events" class="important-sec">
     <div class="sec-inner">
         <h2 class="sub-title">Important Notice</h2>
-        <div class="left-line">
-            <ul class="important-notice-list btn-item-list">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
                 {% for news_event in news_events %}
                     {% if news_event.posted_as == 'Event' %}
-                        <li>
-                            {% if news_event.link %}
-                                <a class="important-notice-item btn-item" href="{% static news_event.link %}">
-                                    <span>{{ news_event.title }}</span>
-                                    <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
-                                </a>
-                            {% else %}
-                                <a class="important-notice-item btn-item" href="#events">
-                                    <span>{{ news_event.title }}</span>
-                                    <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
-                                </a>
-                            {% endif %}
-                            <p>{{ news_event.summary }}</p>
-                        </li>
+                        <div class="swiper-slide">
+                            <div id="notice" class="important-notice-item">
+                                {% if news_event.link %}
+                                    <a href="{% static news_event.link %}" class="btn-item">
+                                        <span class="event-title">{{ news_event.title }}</span>
+                                        <br>
+                                        <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
+                                    </a>
+                                {% else %}
+                                    <a href="#events" class="btn-item">
+                                        <span class="event-title">{{ news_event.title }}</span>
+                                        <br>
+                                    </a>
+                                {% endif %}
+                                <small>(Updated {{ news_event.updated_date|date:"F j, Y" }})</small>
+                                <p>{{ news_event.summary }}</p>
+                            </div>
+                        </div>
                     {% endif %}
                 {% endfor %}
-            </ul>
-        </div>
+            </div>
+
+          
     </div>
-</div>
+</section>
+
+
+
+    
+ 
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.swiper-container', {
+        loop: true, // Infinite loop
+        slidesPerView: 1, // Number of slides visible at once
+        spaceBetween: 20, // Space between slides
+        autoplay: {
+            delay: 3000, // Auto-slide every 3 seconds
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            768: {
+                slidesPerView: 2, // Show 2 slides on medium screens
+            },
+            1024: {
+                slidesPerView: 3, // Show 3 slides on larger screens
+            },
+        },
+    });
+});
+
+</script>
