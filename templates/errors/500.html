@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            color: #333;
+        }
+        .error-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            background-image: url('/static/img/dotted.jpg');
+            background-size: cover;
+        }
+        h1 {
+            color: #d9534f;
+        }
+        p {
+            font-size: 18px;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <img src="/media/sample_logo.png" alt="Logo Django LMS" class="logo">
+        <h1>Oops! Something went wrong.</h1>
+        <p>We encountered an issue while processing your request.</p>
+        <p>Please contact us at: <a href="mailto:{{ email_from_address }}">{{ email_from_address }}</a></p>
+        <p>You can also return to the <a href="/">homepage</a>.</p>
+    </div>
+</body>
+</html>
