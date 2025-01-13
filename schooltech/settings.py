@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import json
 from pathlib import Path
-
+from .middlewares import ErrorCodes, CustomErrorMiddleware
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'schooltech.middlewares.CustomErrorMiddleware',
 ]
 
 ROOT_URLCONF = 'schooltech.urls'
@@ -251,3 +252,8 @@ LMS_EXTERNAL_URL = config('LMS_EXTERNAL_URL')
 GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
 GOOGLE_MAPS_MAP_ID = config('GOOGLE_MAPS_MAP_ID')
 SESSION_COOKIE_NAME = 'school_sessionid'
+
+
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_FROM_ADDRESS = config("EMAIL_FROM_ADDRESS")
